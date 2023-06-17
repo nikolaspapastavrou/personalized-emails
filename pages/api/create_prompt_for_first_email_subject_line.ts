@@ -19,7 +19,7 @@ const handler = async (req: VercelRequest, res: VercelResponse) => {
       );
 
     let { pageContents } = await resp.json();
-    pageContents = ' '.join(pageContents);
+    pageContents = pageContents.join(' ');
 
     console.log(Object.keys(pageContents));
 
