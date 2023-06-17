@@ -29,7 +29,7 @@ async function processHTML(url: string) {
     return pTexts;
 }
 
-export async function get_contents(websiteURL: string) => {
+export async function get_contents(websiteURL: string) {
 
     console.info(websiteURL);
   
