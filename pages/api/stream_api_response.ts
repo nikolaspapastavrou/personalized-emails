@@ -1,6 +1,9 @@
 import { OpenAIStream, OpenAIStreamPayload } from "../../utils/OpenAIStream";
-import fetch from 'node-fetch';
 import { VercelRequest, VercelResponse } from '@vercel/node';
+
+export const config = {
+    runtime: "edge",
+  };
 
 const handler = async (req: VercelRequest): Promise<Response>=> {
     const { prompt } = JSON.parse(req.body);
