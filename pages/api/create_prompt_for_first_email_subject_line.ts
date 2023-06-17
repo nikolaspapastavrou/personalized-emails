@@ -18,13 +18,14 @@ const handler = async (req: VercelRequest, res: VercelResponse) => {
         }
       );
 
-    const { pageContents } = await resp.json();
+    let { pageContents } = await resp.json();
+    pageContents = ' '.join(pageContents);
 
     console.log(Object.keys(pageContents));
 
     console.log('check 3');
     const subjectLinePrompt = `Information scraped from ${company} website:
-    ${' '.join(pageContents)}
+${pageContents}
 
 Product to sell:
 ${productDescription}
