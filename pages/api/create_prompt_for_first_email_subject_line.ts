@@ -4,8 +4,12 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 const handler = async (req: VercelRequest, res: VercelResponse) => {
 
+    console.log('check 1');
+
     const { name, company, productDescription, emailTemplate, url } = JSON.parse(req.body);
-  
+
+    console.log('check 2');
+
     const pageContents = await fetch("/api/get_website_contents", {
         method: "POST",
         headers: {
