@@ -1,7 +1,5 @@
 import fetch from 'node-fetch';
 import * as cheerio from 'cheerio';
-
-import { CheerioWebBaseLoader } from "langchain/document_loaders/web/cheerio";
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 async function getHTML(url: string) {
