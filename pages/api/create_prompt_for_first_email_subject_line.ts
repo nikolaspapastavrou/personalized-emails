@@ -5,12 +5,11 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 const handler = async (req: VercelRequest, res: VercelResponse) => {
 
     console.log('check 1');
-
+    
     const { name, company, productDescription, emailTemplate, url } = JSON.parse(req.body);
 
     console.log('check 2');
-
-    const pageContents = await fetch("/api/get_website_contents", {
+    const pageContents = await fetch(new URL("/api/get_website_contents", 'https://personalized-emails.vercel.app'), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -18,9 +17,10 @@ const handler = async (req: VercelRequest, res: VercelResponse) => {
         body: url
         }
       );
-  
+
+    console.log('check 3');
     const subjectLinePrompt = `Information scraped from ${company} website:
-${pageContents}
+    ${pageContents}
 
 Product to sell:
 ${productDescription}
@@ -30,6 +30,6 @@ ${emailTemplate}
 
 Write a one sentence, subject line for an email to send to ${name} at ${company} for an email that is selling ${name} the product described above. Do not start with "Subject" and avoid using quotation marks.`;
     res.status(200).end(subjectLinePrompt);
-  }
-
+  };
+  
   export default handler;
