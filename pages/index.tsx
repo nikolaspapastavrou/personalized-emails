@@ -1,6 +1,7 @@
 import Image from "next/image";
+import Navbar from "../components/navbar";
 import Sidebar from "../components/sidebar";
-import styles from "./page.module.css";
+import "../app/globals.css";
 
 export default function Home() {
   return (
@@ -8,12 +9,16 @@ export default function Home() {
       <Sidebar />
 
       <div style={{ marginLeft: "320px" }}>
+        <Navbar />
         <h1 className="text-xl font-semibold  text-slate-800 mt-10">
           Get Started
         </h1>
         <div
           className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center justify-center mt-10 hover:bg-gray-100 transition duration-100"
           style={{ width: "300px", height: "200px" }}
+          onClick={() => {
+            window.location.href = "/new-campaign-1";
+          }}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
