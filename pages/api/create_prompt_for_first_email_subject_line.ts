@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
 import * as cheerio from 'cheerio';
+import { get_contents } from './get_website_contents';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 const handler = async (req: VercelRequest, res: VercelResponse) => {
@@ -9,16 +10,7 @@ const handler = async (req: VercelRequest, res: VercelResponse) => {
     const { name, company, productDescription, emailTemplate, url } = JSON.parse(req.body);
 
     console.log('check 2');
-    const resp = await fetch(new URL("/api/get_website_contents", 'https://personalized-emails.vercel.app'), {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: url
-        }
-      );
-
-    let { pageContents } = await resp.json();
+    let pageContents = await get_contents(url);
     pageContents = pageContents.join(' ');
 
     console.log(Object.keys(pageContents));
