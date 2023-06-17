@@ -11,6 +11,9 @@ export default function Home() {
       >
         <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
           <ul className="space-y-2 font-medium">
+            <li className="mb-20">
+              <span className="ml-3">Insert Logo</span>
+            </li>
             <li>
               <a
                 href="#"
