@@ -18,6 +18,8 @@ const handler = async (req: VercelRequest, res: VercelResponse) => {
         }
       );
 
+    console.log(Object.keys(pageContents));
+
     console.log('check 3');
     const subjectLinePrompt = `Information scraped from ${company} website:
     ${pageContents}
