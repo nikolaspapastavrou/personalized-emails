@@ -9,7 +9,7 @@ const handler = async (req: VercelRequest, res: VercelResponse) => {
     const { name, company, productDescription, emailTemplate, url } = JSON.parse(req.body);
 
     console.log('check 2');
-    const pageContents = await fetch(new URL("/api/get_website_contents", 'https://personalized-emails.vercel.app'), {
+    const { pageContents } = await fetch(new URL("/api/get_website_contents", 'https://personalized-emails.vercel.app'), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -22,7 +22,7 @@ const handler = async (req: VercelRequest, res: VercelResponse) => {
 
     console.log('check 3');
     const subjectLinePrompt = `Information scraped from ${company} website:
-    ${pageContents}
+    ${' '.join(pageContents)}
 
 Product to sell:
 ${productDescription}
