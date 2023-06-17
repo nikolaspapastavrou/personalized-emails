@@ -29,24 +29,13 @@ async function processHTML(url: string) {
     return pTexts;
 }
 
-const handler = async (req: VercelRequest, res: VercelResponse) => {
-    res.setHeader('Access-Control-Allow-Origin', '*')
+export async function (websiteURL: string) => {
 
-    if (req.method === 'OPTIONS') {
-        res.status(200).end();
-    }
-
-    if (req.method !== 'POST') {
-        res.status(400).end("Request should be POST");
-    }
-
-    const { url } = JSON.parse(req.body);
-
-    console.info(url);
+    console.info(websiteURL);
   
-    const pageContents = await processHTML(url);
+    const pageContents = await processHTML(websiteURL);
 
-    res.status(200).json( { pageContents } );
+    return pageContents;
   };
   
   export default handler;
