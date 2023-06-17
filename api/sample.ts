@@ -1,7 +1,11 @@
-export default function handler(req, res) {
+import type { VercelRequest, VercelResponse } from '@vercel/node';
+
+export default function handler(req: VercelRequest, res: VercelResponse) {
+  console.log('check');
+  
   if (req.method === 'GET') {
-    return 'hi';
+    res.status(200).end('hi');
   } else {
-    return 'hello';
+    res.status(200).end('hello');
   }
 }
