@@ -9,14 +9,16 @@ const handler = async (req: VercelRequest, res: VercelResponse) => {
     const { name, company, productDescription, emailTemplate, url } = JSON.parse(req.body);
 
     console.log('check 2');
-    const { pageContents } = await fetch(new URL("/api/get_website_contents", 'https://personalized-emails.vercel.app'), {
+    const resp = await fetch(new URL("/api/get_website_contents", 'https://personalized-emails.vercel.app'), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: url
         }
-      ).json();
+      );
+
+    const { pageContents } = await resp.json();
 
     console.log(Object.keys(pageContents));
 
