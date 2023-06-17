@@ -46,7 +46,7 @@ const handler = async (req: VercelRequest, res: VercelResponse) => {
   
     const pageContents = await processHTML(url);
 
-    res.end(pageContents.join(' '));
+    res.status(200).json( { pageContents } );
   };
   
   export default handler;
