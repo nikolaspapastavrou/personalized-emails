@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-export default function handler(req, res) {
+export default function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method === 'GET') {
     res.text('hi').status(200);
   } else {
