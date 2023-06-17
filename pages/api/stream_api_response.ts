@@ -1,20 +1,24 @@
 import { OpenAIStream, OpenAIStreamPayload } from "../../utils/OpenAIStream";
-import fetch from 'node-fetch';
-import { VercelRequest, VercelResponse } from '@vercel/node';
 
-const handler = async (req: VercelRequest): Promise<Response>=> {
-    const { prompt } = JSON.parse(req.body);
+export const config = {
+    runtime: "edge",
+  };
+
+const handler = async (req: Request): Promise<Response>=> {
+    const { prompt } = (await req.json()) as {
+        prompt?: string;
+    };
 
     console.info(prompt);
 
     const payload: OpenAIStreamPayload = {
-        model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: prompt }],
-        temperature: 0.7,
+        model: "gpt-4",
+        messages: [{ role: "user", content: prompt || ''}],
+        temperature: 0,
         top_p: 1,
         frequency_penalty: 0,
         presence_penalty: 0,
-        max_tokens: 3000,
+        max_tokens: 8000,
         stream: true,
         n: 1,
       };
