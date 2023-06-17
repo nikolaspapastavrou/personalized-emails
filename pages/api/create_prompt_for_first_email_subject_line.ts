@@ -16,7 +16,7 @@ const handler = async (req: VercelRequest, res: VercelResponse) => {
         },
         body: url
         }
-      );
+      ).json();
 
     console.log(Object.keys(pageContents));
 
