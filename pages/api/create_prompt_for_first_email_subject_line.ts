@@ -10,8 +10,7 @@ const handler = async (req: VercelRequest, res: VercelResponse) => {
     const { name, company, productDescription, emailTemplate, url } = JSON.parse(req.body);
 
     console.log('check 2');
-    let pageContents = await get_contents(url);
-    pageContents = pageContents.join(' ');
+    const pageContents = await get_contents(url);
 
     console.log(Object.keys(pageContents));
 
