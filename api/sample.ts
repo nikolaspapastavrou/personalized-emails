@@ -1,7 +1,7 @@
 export default function handler(req, res) {
   if (req.method === 'GET') {
-    return 'hi';
+    res.text('hi').status(200);
   } else {
-    return 'hello';
+    res.text('hello').status(200);
   }
 }
