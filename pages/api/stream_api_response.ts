@@ -6,6 +6,7 @@ export const config = {
   };
 
 const handler = async (req: VercelRequest): Promise<Response>=> {
+    console.log(req.body);
     const { prompt } = JSON.parse(req.body);
 
     console.info(prompt);
