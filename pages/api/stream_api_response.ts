@@ -13,7 +13,7 @@ const handler = async (req: Request): Promise<Response>=> {
 
     const payload: OpenAIStreamPayload = {
         model: "gpt-4",
-        messages: [{ role: "user", content: prompt }],
+        messages: [{ role: "user", content: prompt || ''}],
         temperature: 0,
         top_p: 1,
         frequency_penalty: 0,
