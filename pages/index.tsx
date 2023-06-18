@@ -1,11 +1,15 @@
 import Image from "next/image";
-import Navbar from "../components/Navbar";
-import Sidebar from "../components/Sidebar";
+import Navbar from "../components/navigation/Navbar";
+import Sidebar from "../components/navigation/Sidebar";
 import "../app/globals.css";
 
 export default function Home() {
   return (
     <main className=" bg-white">
+      <link
+        href="https://fonts.googleapis.com/css2?family=Sarabun&display=swap"
+        rel="stylesheet"
+      />
       <Sidebar selected={0} />
 
       <div style={{ marginLeft: "320px" }}>
@@ -56,6 +60,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
     </main>
   );
 }
