@@ -55,6 +55,7 @@ export async function get_contents(websiteURL: string, keywords: string) {
     { namespace, pineconeIndex },
   );
 
+
   const pageContents = await vectorStore.similaritySearch(keywords, 2);
 
   return pageContents;
@@ -72,12 +73,6 @@ export async function scrape_contents_2(websiteURL: string) {
   console.log('Retrieving index!');
   const pineconeIndex = client.Index(process.env.PINECONE_INDEX || '');
 
-  const res = await client.describeIndex({
-    name: "malflame",
-  });
-
-  console.log(res);
-
   console.log('Connected with vectorstore!');
 
   const relevantKeywords = ['about', 'information', 'mission', 'details', 'values', 'products', 'strategy'];
@@ -86,9 +81,6 @@ export async function scrape_contents_2(websiteURL: string) {
   let pageContents = "";
 
   console.log('Starting loop!');
-
-  // @ts-ignore
-  return;
 
   while (pagesVisited < 3 && pagesToVisit.length > 0) {
     let currentPage = pagesToVisit.shift();
