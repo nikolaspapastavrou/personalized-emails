@@ -6,21 +6,42 @@ import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
 import { useEffect, useState } from "react";
 import uploaded from "../public/uploaded.png";
 import { VercelRequest, VercelResponse } from "@vercel/node";
+import { useRouter } from "next/router";
 
 export default function NewCampaign3() {
   const [generatedContent, setGeneratedContent] = useState(false);
   const [progress, setProgress] = useState(0);
 
+  const router = useRouter();
+  const { id } = router.query;
+
   useEffect(() => {
+    const generateContent = async () => {
+      if (!id) return;
+
+      const res = await fetch("/api/campaign/start", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          campaignId: id,
+        }),
+      });
+      setGeneratedContent(true);
+    };
+
     // have progress go from 0 to 50 in the span of 5 seconds
     let count = 0;
+    generateContent();
+
     const interval = setInterval(() => {
       if (count <= 75) {
         setProgress((prev) => prev + 1);
         count += 1;
       }
     }, 200);
-  }, []);
+  }, [id]);
 
   return (
     <main className=" bg-white">
@@ -118,20 +139,12 @@ export default function NewCampaign3() {
         >
           <div className="flex flex-row pt-8">
             <p className="mr-4 text-xl font-medium text-black">3</p>
-            <p className="text-xl font-medium text-black">
-              Email Content Generation
-            </p>
+            <p className="text-xl font-medium text-black">Start Campaign</p>
           </div>
 
           {!generatedContent ? (
             <div>
-              <img
-                style={{ height: "300px" }}
-                src={"../generating.gif"}
-                onClick={() => {
-                  setGeneratedContent(true); //TODO: remove when API is ready
-                }}
-              />
+              <img style={{ height: "300px" }} src={"../generating.gif"} />
 
               <div className="flex flex-row mt-4 mb-10">
                 <img src={"../magic-wand.svg"} />
