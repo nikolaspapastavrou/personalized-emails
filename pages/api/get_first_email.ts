@@ -14,6 +14,9 @@ export const config = {
 };
 
 const handler = async (req, res) => {
+  console.log(req);
+  console.log(Object.keys(req));
+  
   const { form } = req;
 
   // Get variables
