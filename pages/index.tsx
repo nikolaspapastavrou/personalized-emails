@@ -48,7 +48,8 @@ export default function Home() {
           Ongoing Projects
         </h1>
 
-        <div
+        <a
+          href="/campaign/1"
           className="bg-gradient-to-b from-blue-400 to-blue-600 rounded-lg shadow-lg p-0 flex flex-col items-center justify-center mt-10"
           style={{ width: "300px", height: "200px" }}
         >
@@ -58,7 +59,7 @@ export default function Home() {
           >
             <h2 className="text-lg ">Campaign 1</h2>
           </div>
-        </div>
+        </a>
       </div>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
     </main>
