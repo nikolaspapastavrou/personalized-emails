@@ -35,7 +35,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     //   { namespace, pineconeIndex },
     // );
   
-    let pageContents = await get_contents('https://www.terrastor.co', 'company, ideas, products');
+    let pageContents = await get_contents('https://xcharge.com', 'company, ideas, products');
   
     // @ts-ignore
     console.log(pageContents);
