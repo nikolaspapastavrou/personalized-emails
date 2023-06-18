@@ -40,6 +40,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   
     await delay(10000);
     // @ts-ignore
+    console.log(pageContents);
     pageContents = pageContents.map((doc) => {doc.pageContent});
   
     console.log(pageContents);
