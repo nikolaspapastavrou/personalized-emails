@@ -24,7 +24,7 @@ export default function Home() {
         href="https://fonts.googleapis.com/css2?family=Sarabun&display=swap"
         rel="stylesheet"
       />
-      <link rel="icon" href="/favicon.ico" />
+      <link rel="icon" href="/images/favicon.ico" />
 
       <title>Mailflame: Campaigns</title>
 
