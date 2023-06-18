@@ -57,6 +57,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       if (shouldRespond) {
         // If we should respond, we should send a response email
         // Insert your response sending logic here
+        console.log(`📧 Responding to ${incomingEmail.senderEmail}`);
+        await EmailService.SendEmail(incomingEmail.senderEmail, incomingEmail.subject, "Wow you actually responded to me? I'm impressed. I'm a bot, but I'm still impressed. 🥰");
+
       } else if (shouldEscalate) {
         // If we should escalate to a human, we should send a slack message to the appropriate channel
         // Insert your slack notification logic here
