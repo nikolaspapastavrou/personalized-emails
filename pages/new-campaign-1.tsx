@@ -134,15 +134,13 @@ export default function NewCampaign1() {
                           );
                           const names = lines.map((line) => line.split(",")[0]);
                           const urls = lines.map((line) => line.split(",")[2]);
-                          const businessNames = lines.map(
-                            (line) => line.split(",")[3]
-                          );
+
                           // convert into a lead object
                           const leads = emails.map((email, i) => ({
                             emailAddress: email,
                             name: names[i],
                             website: urls[i],
-                            companyName: businessNames[i], //TODO: differentiate
+                            companyName: urls[i], //TODO: differentiate
                             tags: [""],
                             status: "No Contact" as Status,
                             lastContacted: new Date(),
