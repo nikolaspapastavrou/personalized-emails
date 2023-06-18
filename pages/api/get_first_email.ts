@@ -18,7 +18,9 @@ export async function getFirstEmail(leadCompanyOperatorName: string, leadCompany
 
   // Get company info from url
   console.log('Getting company info');
-  const companyInfo = await promptUtils.get_contents(leadCompanyUrl || '');
+  await promptUtils.scrape_contents_2(leadCompanyUrl);
+
+  const companyInfo = await promptUtils.get_contents(leadCompanyUrl || '', 'Company information, products, solutions, values, mission');
 
   // Create prompts
   console.log('Constructing prompts');
