@@ -34,9 +34,10 @@ async function processHTML(url: string) {
   return pTextsJoined;
 }
 
-export async function get_contents(websiteURL: string) {
+export async function get_contents(websiteURL: string, keywords: string) {
 
-  
+  const namespace = new URL(websiteURL).hostname || '';
+
   const client = new PineconeClient();
   await client.init({
     apiKey: process.env.PINECONE_API_KEY || '',
@@ -46,13 +47,13 @@ export async function get_contents(websiteURL: string) {
 
   const vectorStore = await PineconeStore.fromExistingIndex(
     new OpenAIEmbeddings(),
-    { pineconeIndex }
+    { pineconeIndex, namespace}
   );
 
-  console.info(websiteURL);
+  let pageContents = await vectorStore.similaritySearch(keywords, 2);
 
-  const pageContents = await processHTML(websiteURL);
-
+  pageContents = pageContents.forEach((doc) => {doc.pageContent}).join(' ');
+  
   return pageContents;
 };
 
