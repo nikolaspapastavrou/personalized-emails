@@ -54,9 +54,10 @@ export default function Home() {
 
         <a
           href="/campaign/1"
-          className="bg-gradient-to-b from-blue-400 to-blue-600 rounded-lg shadow-lg p-0 flex flex-col items-center justify-center mt-10"
+          className="bg-gradient-to-b rounded-lg shadow-lg p-0 flex flex-col items-center justify-center mt-10"
           style={{ width: "300px", height: "200px" }}
         >
+          <img src={"campaign-cover.png"} className="rounded-t-lg" />
           <div
             className="bg-white rounded-b-lg shadow-lg p-6 flex flex-col items-center justify-center mt-auto"
             style={{ width: "300px", height: "100px" }}
