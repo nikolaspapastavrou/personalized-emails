@@ -9,7 +9,15 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: { backgroundColor: {
+      brand: '#DFEDFF',
+    },
+    textColor: {
+      brand: '#DFEDFF',
+    },
+    fill: {
+      brand: '#DFEDFF',
+    },},
   },
   plugins: [
     require('flowbite/plugin')

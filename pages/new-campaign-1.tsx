@@ -7,7 +7,14 @@ import { useState } from "react";
 import uploaded from "../public/uploaded.png";
 
 export default function Home() {
-  const [uploadedLeads, setUploadedLeads] = useState(false);
+  // Add new type that has email, name, and url
+  type Lead = {
+    email: string;
+    name: string;
+    url: string;
+  };
+
+  const [uploadedLeads, setUploadedLeads] = useState<Lead[]>([]);
 
   return (
     <main className=" bg-white">
@@ -54,7 +61,7 @@ export default function Home() {
               </div>
 
               <div className="flex flex-col items-center space-y-2">
-                {uploadedLeads ? (
+                {uploadedLeads.length > 0 ? (
                   <div className="justify-center items-center text-center flex flex-col">
                     <img
                       src={"uploaded.png"}
@@ -70,11 +77,28 @@ export default function Home() {
                 ) : (
                   <Dropzone
                     onDrop={(files) => {
-                      console.log("accepted files", files);
-                      // setFileSelected(true);
-                      // setFileName(files[0].name);
-                      // setFile(files[0]);
-                      setUploadedLeads(true);
+                      const reader = new FileReader();
+                      reader.onload = function (e) {
+                        if (e.target && e.target.result) {
+                          const csv = e.target.result;
+                          const lines = csv.toString().split("\n");
+                          const emails = lines.map(
+                            (line) => line.split(",")[0]
+                          );
+                          const names = lines.map((line) => line.split(",")[1]);
+                          const urls = lines.map((line) => line.split(",")[2]);
+
+                          // convert into a lead object
+                          const leads = emails.map((email, i) => ({
+                            email,
+                            name: names[i],
+                            url: urls[i],
+                          }));
+
+                          setUploadedLeads(leads);
+                        }
+                      };
+                      reader.readAsText(files[0]);
                     }}
                     onReject={(files) => console.log("rejected files", files)}
                     maxSize={3 * 1024 ** 2}
@@ -129,9 +153,7 @@ export default function Home() {
                   data-modal-hide="staticModal"
                   type="button"
                   className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                  onClick={() => {
-                    setUploadedLeads(false);
-                  }}
+                  onClick={() => {}}
                 >
                   Save
                 </button>
@@ -169,10 +191,10 @@ export default function Home() {
         </h1>
         <div
           className="bg-white border border-gray-200 p-8 mt-4"
-          style={{ width: "962.68px", height: "259.14px" }}
+          style={{ width: "962.68px" }}
         >
           <div className="flex flex-row">
-            <div className="w-12 h-12 bg-gray-300 rounded-full flex justify-center items-center">
+            <div className="w-12 h-12 bg-brand rounded-full flex justify-center items-center">
               <p className="text-xl font-medium">1</p>
             </div>
 
@@ -196,6 +218,62 @@ export default function Home() {
                 Select from Existing Leads
               </p>
             </div>
+          </div>
+
+          <div className="relative overflow-x-auto mt-10">
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                  <th scope="col" className="px-6 py-3">
+                    Email
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Name
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    URL
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {uploadedLeads.map((lead, i) => (
+                  <tr
+                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                    key={i}
+                  >
+                    {/* a circle that is brand color and has the 🥶 emoji in the center */}
+
+                    <th
+                      scope="row"
+                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    >
+                      <div className="flex flex-row">
+                        <div className="flex flex-row">
+                          <div className="w-7 h-7 bg-brand rounded-full mr-3 flex justify-center items-center">
+                            🥶
+                          </div>
+                        </div>
+                        {lead.name}
+                      </div>
+                    </th>
+
+                    <th
+                      scope="row"
+                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    >
+                      <div className="flex flex-row">{lead.email}</div>
+                    </th>
+
+                    <th
+                      scope="row"
+                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    >
+                      <div className="flex flex-row">{lead.url}</div>
+                    </th>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
 
