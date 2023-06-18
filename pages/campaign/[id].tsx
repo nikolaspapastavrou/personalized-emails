@@ -93,6 +93,32 @@ export default function Campaign({ campaign }: CampaignProps) {
     },
   ];
 
+  const sent = selectedCampaign.leads.filter((lead) => lead.status === "Sent");
+  const read = selectedCampaign.leads.filter((lead) => lead.status === "Read");
+  const replied = selectedCampaign.leads.filter(
+    (lead) => lead.status === "Replied"
+  );
+  const closed = selectedCampaign.leads.filter(
+    (lead) => lead.status === "Closed"
+  );
+  const notInterested = selectedCampaign.leads.filter(
+    (lead) => lead.status === "No Longer Responding"
+  );
+
+  function selectedLeads() {
+    if (selectedTab === 0) {
+      return closed;
+    } else if (selectedTab === 1) {
+      return replied;
+    } else if (selectedTab === 2) {
+      return read;
+    } else if (selectedTab === 3) {
+      return sent;
+    } else {
+      return notInterested;
+    }
+  }
+
   function generateGmailLink(email: string): string {
     const encodedEmail = encodeURIComponent(email);
     const searchQuery = `${encodedEmail} in:anywhere`;
@@ -300,7 +326,7 @@ export default function Campaign({ campaign }: CampaignProps) {
                 </tr>
               </thead>
               <tbody>
-                {selectedCampaign.leads.map((lead) => {
+                {selectedLeads().map((lead) => {
                   const lastEmail: EmailI | null = lead.conversation
                     ? (lead.conversation[
                         lead.conversation.length - 1
