@@ -28,7 +28,9 @@ export default function NewCampaign3() {
           campaignId: id,
         }),
       });
-      setGeneratedContent(true);
+      // setGeneratedContent(true);
+      // Go to campaign page
+      window.location.href = "/campaign/" + id;
     };
 
     // have progress go from 0 to 50 in the span of 5 seconds
@@ -248,17 +250,8 @@ export default function NewCampaign3() {
             </div>
           )}
         </div>
-
-        <div
-          className="bg-gray-300 bg-opacity-50 mt-5 flex justify-center items-center shadow-sm"
-          style={{ width: "968.24px", height: "125.40px" }}
-        >
-          <div className="flex flex-row">
-            <p className="mr-4 text-xl font-medium text-gray-400">4</p>
-            <p className=" text-xl font-medium text-gray-400">Schedule</p>
-          </div>
-        </div>
       </div>
+
       <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
     </main>
   );

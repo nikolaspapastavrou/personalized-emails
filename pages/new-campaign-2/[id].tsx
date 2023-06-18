@@ -134,7 +134,7 @@ export default function NewCampaign2() {
               htmlFor="large-input"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Campaign Name
+              Company Name
             </label>
             <input
               type="text"

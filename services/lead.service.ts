@@ -142,3 +142,8 @@ export async function getEmails(): Promise<EmailI[]> {
 export async function getEmailsForLead(leadId: string): Promise<EmailI[]> {
   return Email.find({ lead: leadId });
 }
+
+// Get Campaign from Lead.
+export async function getCampaignForLead(leadId: string): Promise<CampaignI | null> {
+  return Campaign.findOne({ leads: leadId });
+}

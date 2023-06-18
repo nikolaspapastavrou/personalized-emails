@@ -14,6 +14,7 @@ import * as LeadService from '../../../services/lead.service';
 // import type Emaill from "../../../models/lead";
 import * as EmailService from '../../../services/email.service';
 import { EmailI } from "../../../models/email";
+import { getReply } from "../get_first_email";
 
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -44,7 +45,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
 
       // Update the conversation state with the new message
-      LeadService.createEmail({...incomingEmail, lead: lead._id});
+      console.log("Creating email", incomingEmail);
+      await LeadService.createEmail({ 
+        lead: lead._id,
+        senderEmail: incomingEmail.senderEmail,
+        senderName: incomingEmail.senderName,
+        recipientEmail: incomingEmail.recipientEmail,
+        recipientName: incomingEmail.recipientName,
+        subject: incomingEmail.subject,
+        text: incomingEmail.text,
+      });
       // lead.conversation.push(incomingEmail);
       // await LeadService.updateLeadById(lead._id, { conversation: lead.conversation });
 
@@ -53,21 +63,45 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       const shouldRespond = true; // TODO: Replace with your decision logic
       const shouldEscalate = false; // TODO: Replace with your decision logic
-      
-      if (shouldRespond) {
-        // If we should respond, we should send a response email
-        // Insert your response sending logic here
-        console.log(`📧 Responding to ${incomingEmail.senderEmail}`);
-        await EmailService.SendEmail(incomingEmail.senderEmail, incomingEmail.subject, "Wow you actually responded to me? I'm impressed. I'm a bot, but I'm still impressed. 🥰");
 
+      const campaign = await LeadService.getCampaignForLead(lead._id);
+      if (!campaign) {
+        console.log(`😭 No campaign found for lead ${lead.emailAddress}`);
+        return res.status(200).end();
+      }
+
+      if (shouldRespond) {
+        // Generate a reply email using the getReply function
+        console.log("GetReply",
+          campaign.productDescription,
+          lead.website,
+          campaign.name,
+          lead.name,
+          lead.conversation.map((email) => email.text),
+          campaign.serviceURL,
+        );
+        const replyTemplate = await getReply(
+          campaign.productDescription,
+          lead.website,
+          campaign.name,
+          lead.name,
+          lead.conversation.map((email) => email.text),
+          campaign.serviceURL
+        );
+
+        // Send the reply email
+        console.log(`📧 Responding to ${incomingEmail.senderEmail}`);
+        await LeadService.updateLeadById(lead._id, { status: "Replied" });
+        await EmailService.SendEmail(incomingEmail.senderEmail, incomingEmail.subject, replyTemplate.emailBody);
       } else if (shouldEscalate) {
-        // If we should escalate to a human, we should send a slack message to the appropriate channel
+        // If we should escalate to a human, send a slack message to the appropriate channel
         // Insert your slack notification logic here
       }
 
       return res.status(200).end();
 
     } catch (error) {
+      console.log("Error in email-received webhook", error);
       return res.status(500).json({ error: error.message });
     }
   } else {
