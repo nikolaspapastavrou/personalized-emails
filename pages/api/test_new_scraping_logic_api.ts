@@ -9,7 +9,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   } else {
     console.log('Starting scraping terrastor!');
     // await scrape_contents_2('https://www.terrastor.co');
-    console.log(get_contents('https://www.terrastor.co', 'company, products, mission, values'));
+    const contents = await get_contents('https://www.terrastor.co', 'company, products, mission, values');
+    console.log(contents);
     res.status(200).end('hello9!');
   }
 }
