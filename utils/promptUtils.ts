@@ -110,7 +110,7 @@ export async function scrape_contents_2(websiteURL: string) {
 
       // Find new pages to visit:
       $("a[href]").each(function() {
-        let href = $(this).attr('href');
+        let href = $(this).attr('href') || '';
         // Handling relative URLs:
         href = new URL(href, currentPage).href;
         const isRelevant = relevantKeywords.some(keyword => href.endsWith(keyword));
