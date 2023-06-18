@@ -16,6 +16,8 @@ export const config = {
 const handler = async (req, res) => {
   console.log(req);
   console.log(Object.keys(req));
+  console.log(req.body);
+  console.log(req.query);
   
   const { form } = req;
 
