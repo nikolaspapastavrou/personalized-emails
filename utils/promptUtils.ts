@@ -180,6 +180,6 @@ ${sourceProductDescription}
 List of past emails
 ${emailConversation}
     
-Write a short, captivating, and convincing email to respond to ${leadCompanyOperatorName} last email in the conversation to sell the product described above. If ${leadCompanyOperatorName} from ${leadCompanyName} is interested, send them this link ${sourceMeetingLink} to schedule a meeting. You should only rely on the information provided in the email template, website information and the product description. Only write the email body text. Do not make up new information. Do not add a subject line. Do not add quotation marks around the text. Limit the response to 75 words. Avoid using placeholders such as <Recipient Name> or <Your Name>.  `;
+Write a short, captivating, and convincing email to respond to ${leadCompanyOperatorName} last email in the conversation to sell the product described above. Make sure to respond to the last email in the conversation. If ${leadCompanyOperatorName} from ${leadCompanyName} is interested, send them this link ${sourceMeetingLink} to schedule a meeting. You should only rely on the information provided in the email template, website information and the product description. Only write the email body text. Do not make up new information. Do not add a subject line. Do not add quotation marks around the text. Limit the response to 75 words. Avoid using placeholders such as <Recipient Name> or <Your Name>.  `;
         return subjectLinePrompt
       };
