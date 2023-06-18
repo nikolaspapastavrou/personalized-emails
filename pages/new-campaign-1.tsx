@@ -37,6 +37,21 @@ export default function NewCampaign1() {
 
     const data = await res.json();
 
+    // const res2 = await fetch("/api/campaign/", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     name: "Draft Campaign",
+    //     isActive: false,
+    //     maxDailyEmailsToSend: 50, // TODO: Hardcoding this for now
+    //     productDescription: "Draft",
+    //     emailTemplate: "Draft",
+    //     serviceURL: "Draft",
+    //   }),
+    // });
+
     window.location.href = "/new-campaign-2/" + data._id;
   };
 

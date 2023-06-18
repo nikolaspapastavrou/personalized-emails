@@ -1,14 +1,26 @@
 import Image from "next/image";
-import Navbar from "../components/navigation/Navbar";
-import Sidebar from "../components/navigation/Sidebar";
-import "../app/globals.css";
+import Navbar from "../../components/navigation/Navbar";
+import Sidebar from "../../components/navigation/Sidebar";
+import "../../app/globals.css";
 import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import uploaded from "../public/uploaded.png";
 import { VercelRequest, VercelResponse } from "@vercel/node";
 
 export default function NewCampaign3() {
   const [generatedContent, setGeneratedContent] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    // have progress go from 0 to 50 in the span of 5 seconds
+    let count = 0;
+    const interval = setInterval(() => {
+      if (count <= 75) {
+        setProgress((prev) => prev + 1);
+        count += 1;
+      }
+    }, 200);
+  }, []);
 
   return (
     <main className=" bg-white">
@@ -25,7 +37,7 @@ export default function NewCampaign3() {
           <div className="flex flex-row">
             <img
               className="w-7 h-7 bg-white rounded-full mr-3"
-              src="progress.png"
+              src="../progress.png"
             />
             <p className="mr-4 h-7 text-sm font-medium mt-1">Progress: 3/4</p>
 
@@ -50,7 +62,7 @@ export default function NewCampaign3() {
         >
           <div className="flex flex-row">
             <img
-              src={"uploaded.png"}
+              src={"../uploaded.png"}
               className="w-10 h-10 flex justify-center items-center"
             />
 
@@ -78,7 +90,7 @@ export default function NewCampaign3() {
         >
           <div className="flex flex-row">
             <img
-              src={"uploaded.png"}
+              src={"../uploaded.png"}
               className="w-10 h-10 flex justify-center items-center"
             />
 
@@ -115,20 +127,20 @@ export default function NewCampaign3() {
             <div>
               <img
                 style={{ height: "300px" }}
-                src={"generating.gif"}
+                src={"../generating.gif"}
                 onClick={() => {
                   setGeneratedContent(true); //TODO: remove when API is ready
                 }}
               />
 
               <div className="flex flex-row mt-4 mb-10">
-                <img src={"magic-wand.svg"} />
+                <img src={"../magic-wand.svg"} />
                 <div className="ml-3" style={{ width: "250px" }}>
                   Generating...
                   <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
                     <div
                       className="bg-blue-600 h-2.5 rounded-full"
-                      style={{ width: "45%" }}
+                      style={{ width: progress + "%" }}
                     ></div>
                   </div>
                 </div>
@@ -137,7 +149,7 @@ export default function NewCampaign3() {
           ) : (
             <div>
               <div className="flex flex-row mt-4">
-                <img src={"magic-wand.svg"} />
+                <img src={"../magic-wand.svg"} />
                 <div className="ml-3" style={{ width: "250px" }}>
                   Generated <b style={{ color: "#3D7FE7" }}>200 </b> email
                   drafts
