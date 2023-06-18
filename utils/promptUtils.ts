@@ -140,7 +140,7 @@ export async function scrape_contents_2(websiteURL: string) {
 
 export async function get_subject_line_prompt(leadCompanyOperatorName, leadCompanyName, sourceProductDescription, leadCompanyInfo, sourceEmailTemplate) {
 
-    const subjectLinePrompt = `Information scraped from ${leadCompanyName} retrieved:
+    const subjectLinePrompt = `The following list of documents are retrieved from ${leadCompanyName} website:
 ${leadCompanyInfo}
 
 Product to sell:
@@ -155,7 +155,7 @@ Write the subject line for an email that will be sent to send to ${leadCompanyOp
 
 export async function get_email_body_prompt(leadCompanyOperatorName, leadCompanyName, sourceProductDescription, leadCompanyInfo, sourceEmailTemplate) {
 
-  const emailBodyPrompt = `Information retrieved from ${leadCompanyName} website:
+  const emailBodyPrompt = `The following list of documents are retrieved from ${leadCompanyName} website:
 ${leadCompanyInfo}
 
 Product to sell:
