@@ -89,7 +89,7 @@ export async function startCampaignById(id: string): Promise<CampaignI | null> {
 
 
 export async function getLeadByEmail(email: string): Promise<LeadI | null> {
-  return Lead.findOne({ email });
+  return Lead.findOne({ emailAddress: email });
 }
 
 // Start Campaign, send first email.

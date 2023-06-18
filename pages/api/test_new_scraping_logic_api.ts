@@ -20,7 +20,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     res.status(200).end('hi');
   } else {
     console.log('Starting scraping terrastor!');
-    // await scrape_contents_2('https://www.terrastor.co');
+    await scrape_contents_2('https://xcharge.com');
     // const namespace = new URL('https://www.terrastor.co').hostname || '';
 
     // const client = new PineconeClient();
@@ -35,7 +35,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     //   { namespace, pineconeIndex },
     // );
   
-    let pageContents = await get_contents('https://www.terrastor.co', 'company, ideas, products');
+    let pageContents = await get_contents('https://xcharge.com', 'company, ideas, products');
   
     // @ts-ignore
     console.log(pageContents);
