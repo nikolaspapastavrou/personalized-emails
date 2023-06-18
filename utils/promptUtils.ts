@@ -65,11 +65,6 @@ export async function scrape_contents_2(websiteURL: string) {
   });
   const pineconeIndex = client.Index(process.env.PINECONE_INDEX || '');
 
-  const vectorStore = await PineconeStore.fromExistingIndex(
-    new OpenAIEmbeddings(),
-    { pineconeIndex }
-  );
-
   const relevantKeywords = ['about', 'information', 'mission', 'details', 'values', 'products', 'strategy'];
   let pagesToVisit = [websiteURL];
   let pagesVisited = 0;
@@ -93,10 +88,14 @@ export async function scrape_contents_2(websiteURL: string) {
       pageContents += " " + pTexts.join(" ");
       
       // Extract the domain
-      const domain = new URL(currentPage || '').hostname;
+      const namespace = new URL(currentPage || '').hostname;
 
+      const vectorStore = await PineconeStore.fromExistingIndex(
+        new OpenAIEmbeddings(),
+        { pineconeIndex, namespace }
+      );
+    
       await vectorStore.addDocuments([new Document({
-        namespace: domain || '',
         pageContent: pageContents,
       })]);
 
