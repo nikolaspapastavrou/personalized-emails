@@ -330,14 +330,14 @@ export async function getServerSideProps(context) {
         tags: ["potential", "urgent"],
         status: "Sent",
         conversation: [
-          {
+          { 
+            lead: "",
             senderName: "Jane Smith",
             recipientEmail: "business@example.com",
             recipientName: "Business",
             senderEmail: "jane.smith@example.com",
             subject: "Product order",
             text: "I would like to order 100 units of your product.",
-            date: new Date("2023-02-01T00:00:00Z").toISOString(),
           },
         ],
       },
@@ -348,13 +348,13 @@ export async function getServerSideProps(context) {
         status: "Read",
         conversation: [
           {
+            lead: "",
             senderName: "Jane Smith",
             recipientEmail: "business@example.com",
             recipientName: "Business",
             senderEmail: "jane.smith@example.com",
             subject: "Product order",
             text: "I would like to order 100 units of your product.",
-            date: new Date("2023-02-01T00:00:00Z").toISOString(),
           },
         ],
       },

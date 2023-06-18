@@ -1,5 +1,6 @@
 // models/Lead.ts
 import mongoose, { Document, Schema } from 'mongoose';
+import { EmailI } from './email';
 
 export type Status = "Sent" | "Read" | "Replied" | "Bounced" | "Closed" | "No Longer Responding";
 
@@ -10,7 +11,7 @@ export interface LeadI extends Document {
   tags: string[];
   status: Status;
   website: string;
-  conversation: mongoose.Types.ObjectId[]; // For referencing Email documents
+  conversation: mongoose.Types.ObjectId[] | EmailI[]; // For referencing Email documents
 }
 
 // Update your LeadSchema definition

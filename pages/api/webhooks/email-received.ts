@@ -11,8 +11,8 @@ import { Resend } from "resend";
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import dbConnect from '../../../middleware/mongoose.middleware';
 import * as LeadService from '../../../services/lead.service';
-import { EmailI } from "../../../models/lead";
 import * as EmailService from '../../../services/email.service';
+import { EmailI } from "../../../models/email";
 
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -43,8 +43,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
 
       // Update the conversation state with the new message
-      lead.conversation.push(incomingEmail);
-      await LeadService.updateLeadById(lead._id, { conversation: lead.conversation });
+      LeadService.createEmail({...incomingEmail, lead: lead._id});
+      // lead.conversation.push(incomingEmail);
+      // await LeadService.updateLeadById(lead._id, { conversation: lead.conversation });
 
       // Determine if we should respond or if we should escalate to a human
       // Insert your decision logic here
