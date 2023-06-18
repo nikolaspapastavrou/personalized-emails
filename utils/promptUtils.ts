@@ -5,6 +5,7 @@ import * as dotenv from "dotenv";
 import { Document } from "langchain/document";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PineconeStore } from "langchain/vectorstores/pinecone";
+import { CharacterTextSplitter } from "langchain/text_splitter";
 
 function delay(ms: number) {
   return new Promise( resolve => setTimeout(resolve, ms) );
@@ -81,7 +82,6 @@ export async function scrape_contents_2(websiteURL: string) {
 
   console.log('Starting loop!');
 
-
   while (pagesVisited < 3 && pagesToVisit.length > 0) {
     let currentPage = pagesToVisit.shift();
     if (!currentPage) {
@@ -103,14 +103,20 @@ export async function scrape_contents_2(websiteURL: string) {
       // Get the text of all relevant elements:
       const pTexts = $('p, h1, h2, h3, h4, h5, h6').map((_, elem) => $(elem).text()).get();
       pageContents += " " + pTexts.join(" ");
+      pageContents = pageContents.replace(/[^a-z0-9.,!?]/gi, ' ').replace(/\s\s+/g, ' ');
       console.info(pageContents);
+
+      const splitter = new CharacterTextSplitter({
+        separator: " ",
+        chunkSize: 500,
+      });
+
+      const documents = await splitter.createDocuments([pageContents]);
       const vectorStore = await PineconeStore.fromExistingIndex(
         new OpenAIEmbeddings(),
         { namespace, pineconeIndex },
       );
-      await vectorStore.addDocuments([new Document({
-        pageContent: pageContents,
-      })]);
+      await vectorStore.addDocuments(documents);
 
       // Find new pages to visit:
       $("a[href]").each(function() {
