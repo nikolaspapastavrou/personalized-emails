@@ -18,10 +18,11 @@ const handler = async (req, res) => {
     sourceEmailTemplate?: string
   };
 
-  console.log(req);
-  console.log(Object.keys(req));
-  console.log(req.body);
-  console.log(req.query);
+  console.log(leadCompanyOperatorName);
+  console.log(leadCompanyName);
+  console.log(sourceProductDescription);
+  console.log(leadCompanyUrl);
+  console.log(sourceEmailTemplate);
 
   // Get company info from url
   console.log('Getting company info');
