@@ -11,7 +11,7 @@ import * as promptUtils from '../../utils/promptUtils';
 
 export const config = {
     runtime: "edge",
-  };
+};
 
 const handler = async (req, res) => {
   const { form } = req;
