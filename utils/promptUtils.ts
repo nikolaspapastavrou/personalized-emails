@@ -50,7 +50,7 @@ Email Template:
 ${emailTemplate}
 
 Write a short, captivating, and convincing email to send to ${name} working at ${company} to sell the product described above. Only write the email body text. Do not add a subject line. Do not add quotation marks around the text. Limit the response to 75 words.`;
-    res.status(200).end(subjectLinePrompt);
+    return subjectLinePrompt
   };
 
 export async function get_initial_email_body_prompt(name, company, productDescription, emailTemplate, url) {
@@ -66,5 +66,5 @@ Email Template:
 ${emailTemplate}
 
 Write a short, captivating, and convincing email to send to ${name} working at ${company} to sell the product described above. Only write the email body text. Do not add a subject line. Do not add quotation marks around the text. Limit the response to 75 words.`;
-    res.status(200).end(subjectLinePrompt);
+    return pageContents
   };
