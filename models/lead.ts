@@ -28,6 +28,7 @@ export type Status = "Sent" | "Read" | "Replied" | "Bounced" | "Closed" | "No Lo
 
 export interface LeadI extends Document {
   name: string;
+  companyName: string;
   emailAddress: string;
   tags: string[];
   status: Status;
@@ -36,10 +37,11 @@ export interface LeadI extends Document {
 
 const LeadSchema: Schema = new Schema({
   name: { type: String, required: true },
+  companyName: { type: String, required: true },
   emailAddress: { type: String, required: true, unique: true },
   tags: { type: [String], required: false },
   status: { type: String, required: true, default: "Sent"},
-  conversation: { type: [Schema.Types.ObjectId], ref: 'Email', required: false }
+  conversation: { type: [], required: false }
 });
 
 export default mongoose.models.Lead || mongoose.model<LeadI>('Lead', LeadSchema);

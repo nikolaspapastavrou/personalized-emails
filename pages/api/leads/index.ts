@@ -11,9 +11,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   switch (method) {
     case 'POST':
       try {
-        const lead = await LeadService.createLead(req.body);
-        return res.status(201).json({ lead });
+        console.log("🔥 Creating leads", req.body.leads);
+        const leads = await LeadService.createLeads(req.body.leads);
+        console.log("🔥 Created leads", leads);
+        return res.status(201).json({ leads });
       } catch (error) {
+        console.error("😭 Error creating leads", error);
         return res.status(400).json({ error: error.message });
       }
       

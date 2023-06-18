@@ -7,8 +7,9 @@ import * as promptUtils from '../../utils/promptUtils';
 
 import { NextRequest, NextResponse } from 'next/server';
 
+export type EmailTemplate = { emailSubject: string, emailBody: string };
 
-export async function getFirstEmail(leadCompanyOperatorName, leadCompanyName, sourceProductDescription, leadCompanyUrl, sourceEmailTemplate){
+export async function getFirstEmail(leadCompanyOperatorName: string, leadCompanyName: string, sourceProductDescription: string, leadCompanyUrl: string, sourceEmailTemplate: string): Promise<EmailTemplate> {
   console.log(leadCompanyOperatorName);
   console.log(leadCompanyName);
   console.log(sourceProductDescription);
@@ -18,7 +19,7 @@ export async function getFirstEmail(leadCompanyOperatorName, leadCompanyName, so
   // Get company info from url
   console.log('Getting company info');
   const companyInfo = await promptUtils.get_contents(leadCompanyUrl || '');
-  
+
   // Create prompts
   console.log('Constructing prompts');
   const subjectLinePrompt = await promptUtils.get_subject_line_prompt(leadCompanyOperatorName, leadCompanyName, sourceProductDescription, companyInfo, sourceEmailTemplate);
@@ -36,7 +37,7 @@ export async function getFirstEmail(leadCompanyOperatorName, leadCompanyName, so
   console.log('Creating langchain chains from prompts');
   const emailSubjectLine = await chat.call([
     new HumanChatMessage(
-      subjectLinePrompt
+      subjectLinePrompt,
     ),
   ]);
   const emailTextBody = await chat.call([
@@ -47,5 +48,5 @@ export async function getFirstEmail(leadCompanyOperatorName, leadCompanyName, so
 
   // Return response
   console.log('Returning response');
-  return { emailSubject: emailSubjectLine, emailBody: emailTextBody};
+  return { emailSubject: emailSubjectLine.text, emailBody: emailTextBody.text };
 };
