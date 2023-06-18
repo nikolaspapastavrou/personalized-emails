@@ -9,6 +9,9 @@ import { Document } from "langchain/document";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PineconeStore } from "langchain/vectorstores/pinecone";
 
+function delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+  }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   console.log('check');
@@ -35,7 +38,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   
     let pageContents = await vectorStore.similaritySearch('company, products, values', 2);
   
-    // await delay(5000);
+    await delay(5000);
     // @ts-ignore
     pageContents = pageContents.map((doc) => {doc.pageContent});
   
