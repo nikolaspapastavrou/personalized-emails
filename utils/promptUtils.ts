@@ -42,13 +42,14 @@ export async function get_contents(websiteURL: string, keywords: string) {
 
   const namespace = new URL(websiteURL).hostname || '';
   console.log(namespace);
+  console.log(keywords);
 
   const client = new PineconeClient();
   await client.init({
     apiKey: process.env.PINECONE_API_KEY || '',
     environment: process.env.PINECONE_ENVIRONMENT || '',
   });
-  const pineconeIndex = client.Index(process.env.PINECONE_INDEX || '');
+  const pineconeIndex = client.Index (process.env.PINECONE_INDEX || '');
 
   const vectorStore = await PineconeStore.fromExistingIndex(
     new OpenAIEmbeddings(),
@@ -57,7 +58,11 @@ export async function get_contents(websiteURL: string, keywords: string) {
 
   console.log(pineconeIndex);
 
+  console.log('before');
   let pageContents = await vectorStore.similaritySearch(keywords, 2);
+  console.log('after');
+
+  await delay(10000);
   console.log(pageContents);
   pageContents = pageContents.map((doc) => {doc.pageContent});
   console.log(pageContents);
