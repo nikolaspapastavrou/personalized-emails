@@ -11,7 +11,7 @@ export default function Sidebar({ selected }: { selected: number }) {
       <div className="h-full px-3 py-4 overflow-y-auto bg-white dark:bg-gray-800">
         <ul className="space-y-2 font-medium">
           <li className="mb-20">
-            <span className="ml-3  font-bold">Insert Logo</span>
+            <span className="ml-3  font-bold">Mailflame</span>
           </li>
           <li>
             <a

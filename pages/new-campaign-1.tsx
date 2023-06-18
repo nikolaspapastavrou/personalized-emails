@@ -2,8 +2,13 @@ import Image from "next/image";
 import Navbar from "../components/navigation/Navbar";
 import Sidebar from "../components/navigation/Sidebar";
 import "../app/globals.css";
+import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
+import { useState } from "react";
+import uploaded from "../public/uploaded.png";
 
 export default function Home() {
+  const [uploadedLeads, setUploadedLeads] = useState(false);
+
   return (
     <main className=" bg-white">
       <link
@@ -49,30 +54,71 @@ export default function Home() {
               </div>
 
               <div className="flex flex-col items-center space-y-2">
-                <div className="relative border-2 border-dashed border-gray-400 rounded-lg  w-96 mt-5 mb-5  h-40 flex justify-center items-center">
-                  <div className="absolute">
-                    <div className="flex flex-col items-center space-y-1 text-center">
-                      <svg
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.5"
-                        className="h-8 mt-2"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                        aria-hidden="true"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m6.75 12l-3-3m0 0l-3 3m3-3v6m-1.5-15H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
-                        ></path>
-                      </svg>
-                      <span className="font-medium">Drag and drop</span>
-                      <span className="text-gray-500">CSV files here or</span>
-                      <span className="text-blue-500">Browse</span>
-                    </div>
+                {uploadedLeads ? (
+                  <div className="justify-center items-center text-center flex flex-col">
+                    <img
+                      src={"uploaded.png"}
+                      style={{
+                        height: "60px",
+                        width: "60px",
+                        marginTop: "50px",
+                        marginBottom: "50px",
+                      }}
+                    />
+                    Uploaded Succesfully!
                   </div>
-                </div>
+                ) : (
+                  <Dropzone
+                    onDrop={(files) => {
+                      console.log("accepted files", files);
+                      // setFileSelected(true);
+                      // setFileName(files[0].name);
+                      // setFile(files[0]);
+                      setUploadedLeads(true);
+                    }}
+                    onReject={(files) => console.log("rejected files", files)}
+                    maxSize={3 * 1024 ** 2}
+                    maxFiles={1}
+                    accept={[MIME_TYPES.csv]}
+                    sx={{
+                      // backgroundColor: "blue",
+                      // Transparant background
+                      backgroundColor: "rgba(0, 0, 0, 0)",
+
+                      "&:hover": {
+                        backgroundColor: "rgba(0, 0, 0, 0.2)",
+                      },
+                    }}
+                    // {...props}
+                  >
+                    <div className="relative  rounded-lg  w-96 mt-5 mb-5  h-40 flex justify-center items-center">
+                      <div className="absolute">
+                        <div className="flex flex-col items-center space-y-1 text-center">
+                          <svg
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            className="h-8 mt-2"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                            aria-hidden="true"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m6.75 12l-3-3m0 0l-3 3m3-3v6m-1.5-15H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
+                            ></path>
+                          </svg>
+                          <span className="font-medium">Drag and drop</span>
+                          <span className="text-gray-500">
+                            CSV files here or
+                          </span>
+                          <span className="text-blue-500">Browse</span>
+                        </div>
+                      </div>
+                    </div>
+                  </Dropzone>
+                )}
                 <span className="text-gray-500 text-sm">
                   (Max file size: 5MB)
                 </span>
@@ -83,6 +129,9 @@ export default function Home() {
                   data-modal-hide="staticModal"
                   type="button"
                   className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  onClick={() => {
+                    setUploadedLeads(false);
+                  }}
                 >
                   Save
                 </button>
