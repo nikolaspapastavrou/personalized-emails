@@ -11,7 +11,7 @@ import { Resend } from "resend";
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import dbConnect from '../../../middleware/mongoose.middleware';
 import * as LeadService from '../../../services/lead.service';
-import EmailI from "../../../models/lead";
+// import type Emaill from "../../../models/lead";
 import * as EmailService from '../../../services/email.service';
 
 function sleep(ms: number) {
@@ -25,7 +25,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (req.method === 'POST') {
     try {
-      const incomingEmail: EmailI = req.body;
+      const incomingEmail: Emaill = req.body;
       if (incomingEmail.senderEmail == "isaiah@warmemailleads.com") {
         // If no corresponding lead was found, ignore the message
         return res.status(200).end();
