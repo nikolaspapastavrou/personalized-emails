@@ -52,7 +52,7 @@ export async function get_contents(websiteURL: string, keywords: string) {
 
   let pageContents = await vectorStore.similaritySearch(keywords, 2);
 
-  pageContents = pageContents.forEach((doc) => {doc.pageContent});
+  pageContents = pageContents.map((doc) => {doc.pageContent});
 
   return pageContents;
 };
