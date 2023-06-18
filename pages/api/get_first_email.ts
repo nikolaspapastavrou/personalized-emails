@@ -30,10 +30,15 @@ const handler = async (req, res) => {
   // Create prompts
   console.log('Constructing prompts');
   const subjectLinePrompt = await promptUtils.get_subject_line_prompt(leadCompanyOperatorName, leadCompanyName, sourceProductDescription, companyInfo, sourceEmailTemplate);
+  console.log('Got subject line');
+  console.log(subjectLinePrompt);
   const emailBodyPrompt = await promptUtils.get_email_body_prompt(leadCompanyOperatorName, leadCompanyName, sourceProductDescription, companyInfo, sourceEmailTemplate);
+  console.log('Got email body');
+  console.log(emailBodyPrompt);
+
   // Create Langchain chains from prompts
   console.log('Creating langchain chains from prompts');
-  const chat = new ChatOpenAI({ temperature: 0, modelName: 'gpt4'});
+  const chat = new ChatOpenAI({ temperature: 0 });
 
   // get completions from Langchain chains
   console.log('Creating langchain chains from prompts');
