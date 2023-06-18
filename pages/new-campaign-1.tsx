@@ -19,7 +19,6 @@ export default function NewCampaign1() {
     website: string;
   }
 
-  //createInitialCampaign
   const createInitialCampaign = async () => {
     const res = await fetch("/api/campaign/", {
       method: "POST",

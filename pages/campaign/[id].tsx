@@ -354,40 +354,40 @@ export async function getServerSideProps(context) {
   const campaign: Partial<CampaignI> = {
     _id: id,
     leads: [
-      {
-        name: "John Doe",
-        emailAddress: "john.doe@example.com",
-        tags: ["potential", "urgent"],
-        status: "Sent",
-        conversation: [
-          {
-            senderName: "Jane Smith",
-            recipientEmail: "business@example.com",
-            recipientName: "Business",
-            senderEmail: "jane.smith@example.com",
-            subject: "Product order",
-            text: "I would like to order 100 units of your product.",
-            date: new Date("2023-02-01T00:00:00Z").toISOString(),
-          },
-        ],
-      },
-      {
-        name: "Jane Smith",
-        emailAddress: "jane.smith@example.com",
-        tags: ["follow-up", "VIP"],
-        status: "Read",
-        conversation: [
-          {
-            senderName: "Jane Smith",
-            recipientEmail: "business@example.com",
-            recipientName: "Business",
-            senderEmail: "jane.smith@example.com",
-            subject: "Product order",
-            text: "I would like to order 100 units of your product.",
-            date: new Date("2023-02-01T00:00:00Z").toISOString(),
-          },
-        ],
-      },
+      // {
+      //   name: "John Doe",
+      //   emailAddress: "john.doe@example.com",
+      //   tags: ["potential", "urgent"],
+      //   status: "Sent",
+      //   conversation: [
+      //     {
+      //       senderName: "Jane Smith",
+      //       recipientEmail: "business@example.com",
+      //       recipientName: "Business",
+      //       senderEmail: "jane.smith@example.com",
+      //       subject: "Product order",
+      //       text: "I would like to order 100 units of your product.",
+      //       date: new Date("2023-02-01T00:00:00Z").toISOString(),
+      //     },
+      //   ],
+      // },
+      // {
+      //   name: "Jane Smith",
+      //   emailAddress: "jane.smith@example.com",
+      //   tags: ["follow-up", "VIP"],
+      //   status: "Read",
+      //   conversation: [
+      //     {
+      //       senderName: "Jane Smith",
+      //       recipientEmail: "business@example.com",
+      //       recipientName: "Business",
+      //       senderEmail: "jane.smith@example.com",
+      //       subject: "Product order",
+      //       text: "I would like to order 100 units of your product.",
+      //       date: new Date("2023-02-01T00:00:00Z").toISOString(),
+      //     },
+      //   ],
+      // },
     ],
     maxDailyEmailsToSend: 200,
     isActive: true,

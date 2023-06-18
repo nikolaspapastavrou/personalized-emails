@@ -67,21 +67,27 @@ export default function Home() {
         </h1>
 
         {campaigns ? (
-          campaigns.map((campaign) => (
-            <a
-              href={"/campaign/" + campaign._id}
-              className="bg-gradient-to-b rounded-lg shadow-lg p-0 flex flex-col items-center justify-center mt-10"
-              style={{ width: "300px", height: "200px" }}
-            >
-              <img src={"campaign-cover.png"} className="rounded-t-lg" />
-              <div
-                className="bg-white rounded-b-lg shadow-lg p-6 flex flex-col items-center justify-center mt-auto"
-                style={{ width: "300px", height: "100px" }}
+          <div className={`grid grid-cols-3 gap-4`}>
+            {campaigns.map((campaign) => (
+              <a
+                href={
+                  campaign.name === "Draft Campaign"
+                    ? "/new-campaign-2/" + campaign._id
+                    : "/campaign/" + campaign._id
+                }
+                className="bg-gradient-to-b rounded-lg shadow-lg p-0 flex flex-col items-center justify-center mt-10"
+                style={{ width: "300px", height: "200px" }}
               >
-                <h2 className="text-lg ">{campaign.name}</h2>
-              </div>
-            </a>
-          ))
+                <img src={"campaign-cover.png"} className="rounded-t-lg" />
+                <div
+                  className="bg-white rounded-b-lg shadow-lg p-6 flex flex-col items-center justify-center mt-auto"
+                  style={{ width: "300px", height: "100px" }}
+                >
+                  <h2 className="text-lg ">{campaign.name}</h2>
+                </div>
+              </a>
+            ))}
+          </div>
         ) : (
           <div />
         )}
