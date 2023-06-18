@@ -6,6 +6,10 @@ import { Document } from "langchain/document";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PineconeStore } from "langchain/vectorstores/pinecone";
 
+function delay(ms: number) {
+  return new Promise( resolve => setTimeout(resolve, ms) );
+}
+
 async function getHTML(url: string) {
   try {
       const response = await fetch(url);
@@ -53,10 +57,16 @@ export async function get_contents(websiteURL: string, keywords: string) {
 
   console.log(pineconeIndex);
 
-  vectorStore.similaritySearch(keywords, 2).then(pageContents => {
-    console.log(pageContents);
+  try {
+    let pageContents = await vectorStore.similaritySearch(keywords, 2);
+    await delay(1000);
 
-  });
+    console.log(pageContents);
+  } catch(error) {
+    console.error('An error occurred:', error);
+  }
+
+  // pageContents = pageContents.map((doc) => {doc.pageContent});
 
   return 'hi';
 };
