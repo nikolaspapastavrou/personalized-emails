@@ -38,7 +38,7 @@ async function processHTML(url: string) {
   return pTextsJoined;
 }
 
-export async function get_contents(websiteURL: string, keywords: string) {
+export async function get_contents(websiteURL: string, keywords: string): Promise<Array<String>> {
 
   const namespace = new URL(websiteURL).hostname || '';
 
@@ -55,11 +55,7 @@ export async function get_contents(websiteURL: string, keywords: string) {
   );
 
 
-  let pageContents = await vectorStore.similaritySearch(keywords, 2);
-
-  await delay(5000);
-  // @ts-ignore
-  pageContents = pageContents.map((doc) => {doc.pageContent});
+  const pageContents = await vectorStore.similaritySearch(keywords, 2);
 
   return pageContents;
 };

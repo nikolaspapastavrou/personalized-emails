@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { scrape_contents_2 } from '../..//utils/promptUtils'
+import { scrape_contents_2, get_contents } from '../..//utils/promptUtils'
 
 import fetch from 'node-fetch';
 import * as cheerio from 'cheerio';
@@ -21,22 +21,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   } else {
     console.log('Starting scraping terrastor!');
     // await scrape_contents_2('https://www.terrastor.co');
-    const namespace = new URL('https://www.terrastor.co').hostname || '';
+    // const namespace = new URL('https://www.terrastor.co').hostname || '';
 
-    const client = new PineconeClient();
-    await client.init({
-      apiKey: process.env.PINECONE_API_KEY || '',
-      environment: process.env.PINECONE_ENVIRONMENT || '',
-    });
-    const pineconeIndex = client.Index (process.env.PINECONE_INDEX || '');
+    // const client = new PineconeClient();
+    // await client.init({
+    //   apiKey: process.env.PINECONE_API_KEY || '',
+    //   environment: process.env.PINECONE_ENVIRONMENT || '',
+    // });
+    // const pineconeIndex = client.Index (process.env.PINECONE_INDEX || '');
   
-    const vectorStore = await PineconeStore.fromExistingIndex(
-      new OpenAIEmbeddings(),
-      { namespace, pineconeIndex },
-    );
+    // const vectorStore = await PineconeStore.fromExistingIndex(
+    //   new OpenAIEmbeddings(),
+    //   { namespace, pineconeIndex },
+    // );
   
-  
-    let pageContents = await vectorStore.similaritySearch('company, products, values', 2);
+    let pageContents = await get_contents('https://www.terrastor.co', 'company, ideas, products');
   
     // @ts-ignore
     console.log(pageContents);
