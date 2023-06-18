@@ -102,7 +102,7 @@ export async function startCampaign(campaignId: string): Promise<CampaignI | nul
   const leads = await Lead.find({ _id: { $in: campaign.leads } });
 
   const PromiseArray = leads.map(async (lead: LeadI) => {
-    const template = await getFirstEmail(lead.name, lead.companyName, campaign.productDescription, campaign.serviceURL, campaign.emailTemplate);
+    const template = await getFirstEmail(lead.name, lead.companyName, campaign.productDescription, lead.website, campaign.emailTemplate);
     await EmailService.SendEmail(lead.emailAddress, template.emailSubject, template.emailBody);
     
     const email: EmailI = {

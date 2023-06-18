@@ -9,6 +9,7 @@ export interface LeadI extends Document {
   emailAddress: string;
   tags: string[];
   status: Status;
+  website: string;
   conversation: mongoose.Types.ObjectId[]; // For referencing Email documents
 }
 
@@ -18,6 +19,7 @@ const LeadSchema: Schema<LeadI> = new Schema({
   companyName: { type: String, required: true },
   emailAddress: { type: String, required: true, unique: true },
   tags: { type: [String], required: false },
+  website: { type: String, required: false, default: "https://www.example.com" },
   status: { type: String, required: true, default: "Sent"},
 }, {
   toJSON: { virtuals: true },  // Add virtuals to toJSON output
