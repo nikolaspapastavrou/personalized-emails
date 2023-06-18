@@ -4,6 +4,7 @@ import Sidebar from "../../components/navigation/Sidebar";
 import { CampaignI } from "../../models/campaign"; // assuming this path is correct
 import { LeadI, Status } from "../../models/lead"; // assuming this path is correct
 import "../../app/globals.css";
+import { useState } from "react";
 
 interface CampaignProps {
   campaign: CampaignI;
@@ -59,6 +60,8 @@ export default function Campaign({ campaign }: CampaignProps) {
       unit: "%",
     },
   ];
+
+  const [selectedTab, setSelectedTab] = useState(0);
 
   return (
     <main className=" bg-white">
@@ -117,42 +120,123 @@ export default function Campaign({ campaign }: CampaignProps) {
             className="inline-flex space-x-10 mt-8 items-center justify-start space-between"
             style={{ height: "32px" }}
           >
-            <div class="flex space-x-2 items-center justify-start">
-              <div class="flex items-center justify-center w-8 h-full px-2 py-1 bg-red-100 rounded-full">
-                <p class="text-base leading-normal text-gray-900">🥰 </p>
+            <div
+              className="flex space-x-2 items-center justify-start"
+              onClick={() => setSelectedTab(0)}
+            >
+              <div className="flex items-center justify-center w-8 h-full px-2 py-1 bg-red-100 rounded-full">
+                <p className="text-base leading-normal text-gray-900">🥰 </p>
               </div>
-              <p class="text-base leading-normal">
-                Closed <span style={{ color: "#3D7FE7" }}>3</span>
+              <p
+                className={
+                  selectedTab === 0
+                    ? "text-base leading-normal text-black"
+                    : "text-base leading-normal text-gray-400"
+                }
+              >
+                Closed{" "}
+                <span
+                  style={{ color: selectedTab === 0 ? "#3D7FE7" : undefined }}
+                >
+                  3
+                </span>
               </p>
             </div>
-            <div class="flex space-x-2 items-center justify-start">
-              <div class="flex items-center justify-center w-8 h-full px-2 py-1 bg-yellow-100 rounded-full">
-                <p class="text-base leading-normal text-gray-900">💬 </p>
+            <div
+              className="flex space-x-2 items-center justify-start"
+              onClick={() => setSelectedTab(1)}
+            >
+              <div className="flex items-center justify-center w-8 h-full px-2 py-1 bg-yellow-100 rounded-full">
+                <p className="text-base leading-normal text-gray-900">💬 </p>
               </div>
-              <p class="text-base leading-normal text-gray-400">Responded 10</p>
+              <p
+                className={
+                  selectedTab === 1
+                    ? "text-base leading-normal text-black"
+                    : "text-base leading-normal text-gray-400"
+                }
+              >
+                Responded{" "}
+                <span
+                  style={{ color: selectedTab === 1 ? "#3D7FE7" : undefined }}
+                >
+                  10
+                </span>
+              </p>
             </div>
-            <div class="flex space-x-2 items-center justify-start">
-              <div class="flex items-center justify-center w-8 h-full px-2 py-1 bg-gray-100 rounded-full">
-                <p class="text-base leading-normal text-gray-900">😶 </p>
+            <div
+              className="flex space-x-2 items-center justify-start"
+              onClick={() => setSelectedTab(2)}
+            >
+              <div className="flex items-center justify-center w-8 h-full px-2 py-1 bg-gray-100 rounded-full">
+                <p className="text-base leading-normal text-gray-900">😶 </p>
               </div>
-              <p class="text-base leading-normal text-gray-400">Read 10</p>
+              <p
+                className={
+                  selectedTab === 2
+                    ? "text-base leading-normal text-black"
+                    : "text-base leading-normal text-gray-400"
+                }
+              >
+                Read{" "}
+                <span
+                  style={{ color: selectedTab === 2 ? "#3D7FE7" : undefined }}
+                >
+                  10
+                </span>
+              </p>
             </div>
-            <div class="flex space-x-2 items-center justify-start">
-              <div class="flex items-center justify-center w-1/3 h-full px-2 py-1 bg-gray-200 rounded-full">
-                <p class="text-base leading-normal text-gray-900">🧊 </p>
+            <div
+              className="flex space-x-2 items-center justify-start"
+              onClick={() => setSelectedTab(3)}
+            >
+              <div className="flex items-center justify-center w-1/3 h-full px-2 py-1 bg-gray-200 rounded-full">
+                <p className="text-base leading-normal text-gray-900">🧊 </p>
               </div>
-              <p class="text-base leading-normal text-gray-400">Sent 50</p>
+              <p
+                className={
+                  selectedTab === 3
+                    ? "text-base leading-normal text-black"
+                    : "text-base leading-normal text-gray-400"
+                }
+              >
+                Sent{" "}
+                <span
+                  style={{ color: selectedTab === 3 ? "#3D7FE7" : undefined }}
+                >
+                  50
+                </span>
+              </p>
             </div>
-            <div class="flex space-x-2 items-center justify-start">
-              <div class="flex items-center justify-center w-8 h-full px-2 py-1 bg-gray-200 rounded-full">
-                <p class="text-base leading-normal text-gray-900">😴 </p>
+            <div
+              className="flex space-x-2 items-center justify-start"
+              onClick={() => setSelectedTab(4)}
+            >
+              <div className="flex items-center justify-center w-8 h-full px-2 py-1 bg-gray-200 rounded-full">
+                <p className="text-base leading-normal text-gray-900">😴 </p>
               </div>
-              <p class="text-base leading-normal text-gray-400">
-                No Longer Responding 10
+              <p
+                className={
+                  selectedTab === 4
+                    ? "text-base leading-normal text-black"
+                    : "text-base leading-normal text-gray-400"
+                }
+              >
+                No Longer Responding{" "}
+                <span
+                  style={{ color: selectedTab === 4 ? "#3D7FE7" : undefined }}
+                >
+                  10
+                </span>
               </p>
             </div>
           </div>
-          <div class="w-28 h-0.5 mt-2 bg-gray-300 rounded-full mb-4" />
+          <div
+            style={{
+              marginLeft: (selectedTab * 10).toString() + "rem",
+            }}
+            className="w-28 h-0.5 mt-2 bg-gray-300 rounded-full mb-4"
+          />
 
           {/* Table */}
           <div className="relative overflow-x-auto mt-4 mr-4">
