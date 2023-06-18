@@ -139,9 +139,10 @@ export async function scrape_contents_2(websiteURL: string) {
 };
 
 export async function get_subject_line_prompt(leadCompanyOperatorName, leadCompanyName, sourceProductDescription, leadCompanyInfo, sourceEmailTemplate) {
+    console.log(leadCompanyInfo);
 
     const subjectLinePrompt = `The following list of documents are retrieved from ${leadCompanyName} website:
-${leadCompanyInfo}
+${JSON.stringify(leadCompanyInfo)}
 
 Product to sell:
 ${sourceProductDescription}
@@ -156,7 +157,7 @@ Write the subject line for an email that will be sent to send to ${leadCompanyOp
 export async function get_email_body_prompt(leadCompanyOperatorName, leadCompanyName, sourceProductDescription, leadCompanyInfo, sourceEmailTemplate) {
 
   const emailBodyPrompt = `The following list of documents are retrieved from ${leadCompanyName} website:
-${leadCompanyInfo}
+${JSON.stringify(leadCompanyInfo)}
 
 Product to sell:
 ${sourceProductDescription}
@@ -164,13 +165,14 @@ ${sourceProductDescription}
 Email Template:
 ${sourceEmailTemplate}
 
-Write a short, captivating, and convincing email to send to ${leadCompanyOperatorName} working at ${leadCompanyName} to sell the product described above. You must use the information retrieved from the website to make the the response personalized. Only write the email body text. Do not add a subject line. Do not add quotation marks around the text. Limit the response to 75 words.`;
+Write a short, captivating, and convincing email to send to ${leadCompanyOperatorName} working at ${leadCompanyName} to sell the product described above. You must use the information retrieved from the website to make the the response personalized. You should only rely on the information provided in the website information and the product description. Do not make up new information. Only write the email body text. Do not add a subject line. Do not add quotation marks around the text. Limit the response to 75 words.`;
+  console.log(leadCompanyInfo);
   return emailBodyPrompt;
   };
 
   export async function get_reply_body(emailConversation: string[], sourceProductDescription: string, sourceMeetingLink: string, leadCompanyName: string, leadCompanyOperatorName: string, leadCompanyInfo: any) {
     const subjectLinePrompt = `The following list of documents are retrieved from ${leadCompanyName} website:
-${leadCompanyInfo}
+${JSON.stringify(leadCompanyInfo)}
 
 Product to sell:
 ${sourceProductDescription}
@@ -178,6 +180,6 @@ ${sourceProductDescription}
 List of past emails
 ${emailConversation}
     
-Write a short, captivating, and convincing email to respond to ${leadCompanyOperatorName} last email in the conversation to sell the product described above. If ${leadCompanyOperatorName} from ${leadCompanyName} is interested, send them this link ${sourceMeetingLink} to schedule a meeting. Only write the email body text. Do not add a subject line. Do not add quotation marks around the text. Limit the response to 75 words.`;
+Write a short, captivating, and convincing email to respond to ${leadCompanyOperatorName} last email in the conversation to sell the product described above. If ${leadCompanyOperatorName} from ${leadCompanyName} is interested, send them this link ${sourceMeetingLink} to schedule a meeting. You should only rely on the information provided in the website information and the product description. Only write the email body text. Do not make up new information. Do not add a subject line. Do not add quotation marks around the text. Limit the response to 75 words.`;
         return subjectLinePrompt
       };
