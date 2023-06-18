@@ -52,14 +52,14 @@ export async function get_contents(websiteURL: string, keywords: string) {
 
   const vectorStore = await PineconeStore.fromExistingIndex(
     new OpenAIEmbeddings(),
-    { pineconeIndex, namespace}
+    { namespace, pineconeIndex },
   );
 
   console.log(pineconeIndex);
 
   try {
     let pageContents = await vectorStore.similaritySearch(keywords, 2);
-    await delay(1000);
+    await delay(5000);
 
     console.log(pageContents);
   } catch(error) {
