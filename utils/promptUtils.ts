@@ -150,7 +150,7 @@ ${sourceProductDescription}
 Email Template:
 ${sourceEmailTemplate}
 
-Write the subject line for an email that will be sent to send to ${leadCompanyOperatorName} working at ${leadCompanyName} to sell the product described above. You must use the information retrieved from the website to make the the response personalized. Only write the subject line text. Do not add the prefix Subject: at the beggining. Do not add quotation marks around the text.`;
+Write the subject line for an email that will be sent to send to ${leadCompanyOperatorName} working at ${leadCompanyName} to sell the product described above. You must use the information retrieved from the website to make the the response personalized. Only write the subject line text. Do not add the prefix Subject: at the beggining. Do not add quotation marks around the text. If there is any field for <Recipient Name>, replace it with ${leadCompanyOperatorName}`;
     return subjectLinePrompt
   };
 
@@ -165,7 +165,7 @@ ${sourceProductDescription}
 Email Template:
 ${sourceEmailTemplate}
 
-Write a short, captivating, and convincing email to send to ${leadCompanyOperatorName} working at ${leadCompanyName} to sell the product described above. You must use the information retrieved from the website to make the the response personalized. You should only rely on the information provided in the website information and the product description. Do not make up new information. Only write the email body text. Do not add a subject line. Do not add quotation marks around the text. Limit the response to 75 words.`;
+Write a short, captivating, and convincing email to send to ${leadCompanyOperatorName} working at ${leadCompanyName} to sell the product described above. You must use the information retrieved from the website to make the the response personalized. You should only rely on the information provided in the email template, website information and the product description. Do not make up new information. Only write the email body text. Do not add a subject line. Do not add quotation marks around the text. Limit the response to 75 words. If there is any field for <Recipient Name>, replace it with ${leadCompanyOperatorName} `;
   console.log(leadCompanyInfo);
   return emailBodyPrompt;
   };
@@ -180,6 +180,6 @@ ${sourceProductDescription}
 List of past emails
 ${emailConversation}
     
-Write a short, captivating, and convincing email to respond to ${leadCompanyOperatorName} last email in the conversation to sell the product described above. If ${leadCompanyOperatorName} from ${leadCompanyName} is interested, send them this link ${sourceMeetingLink} to schedule a meeting. You should only rely on the information provided in the website information and the product description. Only write the email body text. Do not make up new information. Do not add a subject line. Do not add quotation marks around the text. Limit the response to 75 words.`;
+Write a short, captivating, and convincing email to respond to ${leadCompanyOperatorName} last email in the conversation to sell the product described above. If ${leadCompanyOperatorName} from ${leadCompanyName} is interested, send them this link ${sourceMeetingLink} to schedule a meeting. You should only rely on the information provided in the email template, website information and the product description. Only write the email body text. Do not make up new information. Do not add a subject line. Do not add quotation marks around the text. Limit the response to 75 words. If there is any field for <Recipient Name>, replace it with ${leadCompanyOperatorName} `;
         return subjectLinePrompt
       };
