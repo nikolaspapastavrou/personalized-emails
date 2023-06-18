@@ -68,11 +68,6 @@ export async function scrape_contents_2(websiteURL: string) {
   console.log('Retrieving index!');
   const pineconeIndex = client.Index(process.env.PINECONE_INDEX || '');
 
-  const vectorStore = await PineconeStore.fromExistingIndex(
-    new OpenAIEmbeddings(),
-    { pineconeIndex }
-  );
-
   console.log('Connected with vectorstore!');
 
   const relevantKeywords = ['about', 'information', 'mission', 'details', 'values', 'products', 'strategy'];
@@ -105,8 +100,11 @@ export async function scrape_contents_2(websiteURL: string) {
       const pTexts = $('p, h1, h2, h3, h4, h5, h6').map((_, elem) => $(elem).text()).get();
       pageContents += " " + pTexts.join(" ");
       console.info(pageContents);
+      const vectorStore = await PineconeStore.fromExistingIndex(
+        new OpenAIEmbeddings(),
+        { namespace, pineconeIndex },
+      );
       await vectorStore.addDocuments([new Document({
-        namespace: namespace,  // Updated to use domain name of the URL as namespace
         pageContent: pageContents,
       })]);
 
