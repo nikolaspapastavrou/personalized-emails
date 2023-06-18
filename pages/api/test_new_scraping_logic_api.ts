@@ -38,7 +38,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   
     let pageContents = await vectorStore.similaritySearch('company, products, values', 2);
   
-    await delay(5000);
+    await delay(10000);
     // @ts-ignore
     pageContents = pageContents.map((doc) => {doc.pageContent});
   
