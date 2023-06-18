@@ -39,10 +39,10 @@ export async function get_contents(websiteURL: string) {
   
   const client = new PineconeClient();
   await client.init({
-    apiKey: process.env.PINECONE_API_KEY,
-    environment: process.env.PINECONE_ENVIRONMENT,
+    apiKey: process.env.PINECONE_API_KEY || '',
+    environment: process.env.PINECONE_ENVIRONMENT || '',
   });
-  const pineconeIndex = client.Index(process.env.PINECONE_INDEX);
+  const pineconeIndex = client.Index(process.env.PINECONE_INDEX || '');
 
   const vectorStore = await PineconeStore.fromExistingIndex(
     new OpenAIEmbeddings(),
