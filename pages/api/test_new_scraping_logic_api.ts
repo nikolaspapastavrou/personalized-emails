@@ -40,6 +40,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   
     // @ts-ignore
     console.log(pageContents);
+    console.log(typeof(pageContents);)
 
     res.status(200).end('hello9!');
   }
