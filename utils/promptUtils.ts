@@ -55,7 +55,6 @@ export async function get_contents(websiteURL: string, keywords: string) {
     { namespace, pineconeIndex },
   );
 
-
   const pageContents = await vectorStore.similaritySearch(keywords, 2);
 
   return pageContents;
@@ -87,6 +86,9 @@ export async function scrape_contents_2(websiteURL: string) {
   let pageContents = "";
 
   console.log('Starting loop!');
+
+  // @ts-ignore
+  return;
 
   while (pagesVisited < 3 && pagesToVisit.length > 0) {
     let currentPage = pagesToVisit.shift();
