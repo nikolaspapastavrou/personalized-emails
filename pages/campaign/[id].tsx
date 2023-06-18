@@ -4,15 +4,40 @@ import Sidebar from "../../components/navigation/Sidebar";
 import { CampaignI } from "../../models/campaign"; // assuming this path is correct
 import { LeadI, Status } from "../../models/lead"; // assuming this path is correct
 import "../../app/globals.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 interface CampaignProps {
   campaign: CampaignI;
 }
 
+//TODO: make this server side rendered (use campaign instead of selectedCampaign)
 export default function Campaign({ campaign }: CampaignProps) {
+  const [selectedTab, setSelectedTab] = useState(0);
+  const [selectedCampaign, setSelectedCampaign] = useState<
+    CampaignI | undefined
+  >();
+
+  //get param from url
+  const router = useRouter();
+  const { id } = router.query;
+
+  useEffect(() => {
+    // Fetch all campaigns from the API: /api/campaign
+    fetch("/api/campaign/" + id)
+      .then((res) => res.json())
+      .then((data) => {
+        setSelectedCampaign(data.campaign);
+        console.log(data);
+      });
+  }, []);
+
+  if (!selectedCampaign) {
+    return <div>Loading...</div>;
+  }
+
   // It's been opened if, the status is Read, Replied, Closed.
-  const numSent = campaign.leads.filter(
+  const numSent = selectedCampaign.leads.filter(
     (lead) =>
       lead.status === "Read" ||
       lead.status === "Replied" ||
@@ -22,7 +47,7 @@ export default function Campaign({ campaign }: CampaignProps) {
   ).length;
 
   // It's been opened if, the status is Read, Replied, Closed.
-  const numOpened = campaign.leads.filter(
+  const numOpened = selectedCampaign.leads.filter(
     (lead) =>
       lead.status === "Read" ||
       lead.status === "Replied" ||
@@ -30,38 +55,42 @@ export default function Campaign({ campaign }: CampaignProps) {
   ).length;
 
   // It's been replied if, the status is Replied, Closed.
-  const numReplied = campaign.leads.filter(
+  const numReplied = selectedCampaign.leads.filter(
     (lead) => lead.status === "Replied" || lead.status === "Closed"
   ).length;
 
   // It's been closed if, the status is Closed.
-  const numClosed = campaign.leads.filter(
+  const numClosed = selectedCampaign.leads.filter(
     (lead) => lead.status === "Closed"
   ).length;
 
   const stats = [
     {
       name: "Sent",
-      value: campaign.leads.filter((lead) => lead.status).length,
+      value: selectedCampaign.leads.filter((lead) => lead.status).length,
     },
     {
       name: "Open Rate",
-      value: Math.floor((numOpened / numSent) * 100),
+      value: isNaN(Math.floor((numOpened / numSent) * 100))
+        ? 0
+        : Math.floor((numOpened / numSent) * 100),
       unit: "%",
     },
     {
       name: "Reply Rate",
-      value: Math.floor((numReplied / numSent) * 100),
+      value: isNaN(Math.floor((numReplied / numSent) * 100))
+        ? 0
+        : Math.floor((numReplied / numSent) * 100),
       unit: "%",
     },
     {
       name: "Close rate",
-      value: Math.floor((numClosed / numSent) * 100),
+      value: isNaN(Math.floor((numClosed / numSent) * 100))
+        ? 0
+        : Math.floor((numClosed / numSent) * 100),
       unit: "%",
     },
   ];
-
-  const [selectedTab, setSelectedTab] = useState(0);
 
   return (
     <main className=" bg-white">
@@ -76,7 +105,7 @@ export default function Campaign({ campaign }: CampaignProps) {
 
         <div className=" sm:ml-[280px] m-10">
           <h1 className="text-2xl font-bold  text-slate-800 mt-10">
-            Campaign {campaign._id}
+            {selectedCampaign.name}
           </h1>
           <h2 className="text-lg font-semibold  text-slate-800 mt-3">
             Engagement
@@ -138,7 +167,7 @@ export default function Campaign({ campaign }: CampaignProps) {
                 <span
                   style={{ color: selectedTab === 0 ? "#3D7FE7" : undefined }}
                 >
-                  3
+                  {numClosed}
                 </span>
               </p>
             </div>
@@ -160,7 +189,7 @@ export default function Campaign({ campaign }: CampaignProps) {
                 <span
                   style={{ color: selectedTab === 1 ? "#3D7FE7" : undefined }}
                 >
-                  10
+                  {numReplied}
                 </span>
               </p>
             </div>
@@ -182,7 +211,7 @@ export default function Campaign({ campaign }: CampaignProps) {
                 <span
                   style={{ color: selectedTab === 2 ? "#3D7FE7" : undefined }}
                 >
-                  10
+                  {numOpened}
                 </span>
               </p>
             </div>
@@ -204,7 +233,7 @@ export default function Campaign({ campaign }: CampaignProps) {
                 <span
                   style={{ color: selectedTab === 3 ? "#3D7FE7" : undefined }}
                 >
-                  50
+                  {numSent}
                 </span>
               </p>
             </div>
@@ -226,7 +255,8 @@ export default function Campaign({ campaign }: CampaignProps) {
                 <span
                   style={{ color: selectedTab === 4 ? "#3D7FE7" : undefined }}
                 >
-                  10
+                  {0}
+                  {/* TODO: implement this logic */}
                 </span>
               </p>
             </div>
