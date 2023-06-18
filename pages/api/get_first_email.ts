@@ -5,11 +5,13 @@ import { ChatOpenAI } from "langchain/chat_models/openai";
 
 import * as promptUtils from '../../utils/promptUtils';
 
+import { NextRequest, NextResponse } from 'next/server';
+
 export const config = {
   runtime: 'edge',
 };
 
-const handler = async (req, res) => {
+const handler = async (req: NextRequest) => {
   const { leadCompanyOperatorName, leadCompanyName, sourceProductDescription, leadCompanyUrl, sourceEmailTemplate } = (await req.json()) as {
     leadCompanyOperatorName?: string;
     leadCompanyName?: string
@@ -56,7 +58,7 @@ const handler = async (req, res) => {
 
   // Return response
   console.log('Returning response');
-  res.status(200).json({ emailSubject: emailSubjectLine, emailBody: emailTextBody});
+  return NextRequest.json({ emailSubject: emailSubjectLine, emailBody: emailTextBody});
 };
   
   export default handler;
