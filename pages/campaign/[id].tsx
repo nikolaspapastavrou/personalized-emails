@@ -71,7 +71,7 @@ export default function Campaign({ campaign }: CampaignProps) {
       <div>
         <Navbar />
 
-        <div className=" sm:ml-[270px] m-10">
+        <div className=" sm:ml-[280px] m-10">
           <h1 className="text-2xl font-bold  text-slate-800 mt-10">
             Campaign {campaign._id}
           </h1>
@@ -80,7 +80,7 @@ export default function Campaign({ campaign }: CampaignProps) {
           </h2>
           <p className="text-sm font-light text-slate-500">Updated daily</p>
 
-        {/* Engagement Stats */}
+          {/* Engagement Stats */}
           <div className="bg-gray-100 rounded-xl mt-5">
             <div className="mx-auto max-w-7xl">
               <div className="grid grid-cols-1 gap-pxsm:grid-cols-2 lg:grid-cols-4 rounded-2xl">
@@ -110,12 +110,119 @@ export default function Campaign({ campaign }: CampaignProps) {
             </div>
           </div>
 
-        {/* Leads Status Table | Sent 🧊 | Read 😶 | No Longer Responding 😴 | Responded 💬 | Closed 🥰 | */}
-        {/* Tab bar that toggles the table view below. Emoji's in the tab bar are in a circle with different light pastel color, and the text beside them */}
+          {/* Leads Status Table | Sent 🧊 | Read 😶 | No Longer Responding 😴 | Responded 💬 | Closed 🥰 | */}
+          {/* Tab bar that toggles the table view below. Emoji's in the tab bar are in a circle with different light pastel color, and the text beside them */}
 
+          <div
+            className="inline-flex space-x-10 mt-8 items-center justify-start space-between"
+            style={{ height: "32px" }}
+          >
+            <div class="flex space-x-2 items-center justify-start">
+              <div class="flex items-center justify-center w-8 h-full px-2 py-1 bg-red-100 rounded-full">
+                <p class="text-base leading-normal text-gray-900">🥰 </p>
+              </div>
+              <p class="text-base leading-normal">
+                Closed <span style={{ color: "#3D7FE7" }}>3</span>
+              </p>
+            </div>
+            <div class="flex space-x-2 items-center justify-start">
+              <div class="flex items-center justify-center w-8 h-full px-2 py-1 bg-yellow-100 rounded-full">
+                <p class="text-base leading-normal text-gray-900">💬 </p>
+              </div>
+              <p class="text-base leading-normal text-gray-400">Responded 10</p>
+            </div>
+            <div class="flex space-x-2 items-center justify-start">
+              <div class="flex items-center justify-center w-8 h-full px-2 py-1 bg-gray-100 rounded-full">
+                <p class="text-base leading-normal text-gray-900">😶 </p>
+              </div>
+              <p class="text-base leading-normal text-gray-400">Read 10</p>
+            </div>
+            <div class="flex space-x-2 items-center justify-start">
+              <div class="flex items-center justify-center w-1/3 h-full px-2 py-1 bg-gray-200 rounded-full">
+                <p class="text-base leading-normal text-gray-900">🧊 </p>
+              </div>
+              <p class="text-base leading-normal text-gray-400">Sent 50</p>
+            </div>
+            <div class="flex space-x-2 items-center justify-start">
+              <div class="flex items-center justify-center w-8 h-full px-2 py-1 bg-gray-200 rounded-full">
+                <p class="text-base leading-normal text-gray-900">😴 </p>
+              </div>
+              <p class="text-base leading-normal text-gray-400">
+                No Longer Responding 10
+              </p>
+            </div>
+          </div>
+          <div class="w-28 h-0.5 mt-2 bg-gray-300 rounded-full mb-4" />
+
+          {/* Table */}
+          <div className="relative overflow-x-auto mt-4 mr-4">
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                  <th scope="col" className="px-6 py-3">
+                    Name
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Email
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Subject
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Text
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Date
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    John Doe
+                  </th>
+                  <td className="px-6 py-4">johndoe@gmail.com</td>
+                  <td className="px-6 py-4">Greetings from...</td>
+                  <td className="px-6 py-4">
+                    According to all known laws of physics...
+                  </td>
+                  <td className="px-6 py-4">06/17/2023</td>
+                </tr>
+                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    Jane Doe
+                  </th>
+                  <td className="px-6 py-4">janedoe@gmail.com</td>
+                  <td className="px-6 py-4">Greetings from...</td>
+                  <td className="px-6 py-4">
+                    According to all known laws of physics...
+                  </td>
+                  <td className="px-6 py-4">06/17/2023</td>
+                </tr>
+                <tr className="bg-white dark:bg-gray-800">
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    Joseph M. Ama
+                  </th>
+                  <td className="px-6 py-4">joemama@gmail.com</td>
+                  <td className="px-6 py-4">Greetings from...</td>
+                  <td className="px-6 py-4">
+                    According to all known laws of physics...
+                  </td>
+                  <td className="px-6 py-4">06/17/2023</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-
-        
       </div>
     </main>
   );
