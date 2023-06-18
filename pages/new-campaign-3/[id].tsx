@@ -28,7 +28,9 @@ export default function NewCampaign3() {
           campaignId: id,
         }),
       });
-      setGeneratedContent(true);
+      // setGeneratedContent(true);
+      // Go to campaign page
+      window.location.href = "/campaign/" + id;
     };
 
     // have progress go from 0 to 50 in the span of 5 seconds
@@ -60,7 +62,7 @@ export default function NewCampaign3() {
               className="w-7 h-7 bg-white rounded-full mr-3"
               src="../progress.png"
             />
-            <p className="mr-4 h-7 text-sm font-medium mt-1">Progress: 3/4</p>
+            <p className="mr-4 h-7 text-sm font-medium mt-1">Progress: 3/3</p>
 
             <div className="w-14 h-7 bg-gray-300 rounded-full p-2 justify-center items-center flex">
               <p className="w-8 h-4 text-xs font-medium text-gray-500">Draft</p>
@@ -139,7 +141,7 @@ export default function NewCampaign3() {
         >
           <div className="flex flex-row pt-8">
             <p className="mr-4 text-xl font-medium text-black">3</p>
-            <p className="text-xl font-medium text-black">Start Campaign</p>
+            <p className="text-xl font-medium text-black">Launch Campaign</p>
           </div>
 
           {!generatedContent ? (
@@ -248,17 +250,8 @@ export default function NewCampaign3() {
             </div>
           )}
         </div>
-
-        <div
-          className="bg-gray-300 bg-opacity-50 mt-5 flex justify-center items-center shadow-sm"
-          style={{ width: "968.24px", height: "125.40px" }}
-        >
-          <div className="flex flex-row">
-            <p className="mr-4 text-xl font-medium text-gray-400">4</p>
-            <p className=" text-xl font-medium text-gray-400">Schedule</p>
-          </div>
-        </div>
       </div>
+
       <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
     </main>
   );

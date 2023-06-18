@@ -149,7 +149,7 @@ ${sourceProductDescription}
 Email Template:
 ${sourceEmailTemplate}
 
-Write the subject line for an email that will be sent to send to ${leadCompanyOperatorName} working at ${leadCompanyName} to sell the product described above. Only write the subject line text. Do not add the prefix Subject: at the beggining. Do not add quotation marks around the text.`;
+Write the subject line for an email that will be sent to send to ${leadCompanyOperatorName} working at ${leadCompanyName} to sell the product described above. You must use the information retrieved from the website to make the the response personalized. Only write the subject line text. Do not add the prefix Subject: at the beggining. Do not add quotation marks around the text.`;
     return subjectLinePrompt
   };
 
@@ -164,7 +164,7 @@ ${sourceProductDescription}
 Email Template:
 ${sourceEmailTemplate}
 
-Write a short, captivating, and convincing email to send to ${leadCompanyOperatorName} working at ${leadCompanyName} to sell the product described above. Only write the email body text. Do not add a subject line. Do not add quotation marks around the text. Limit the response to 75 words.`;
+Write a short, captivating, and convincing email to send to ${leadCompanyOperatorName} working at ${leadCompanyName} to sell the product described above. You must use the information retrieved from the website to make the the response personalized. Only write the email body text. Do not add a subject line. Do not add quotation marks around the text. Limit the response to 75 words.`;
   return emailBodyPrompt;
   };
 
