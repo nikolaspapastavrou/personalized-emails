@@ -14,7 +14,7 @@ function sleep(ms: number) {
 }
 
 // Given an email address and a first name, send an email, if successful return the Resend response ID.
-export async function SendEmail(to: string, subject: string, message: string): Promise<string | null> {
+export async function SendEmail(to: string, subject: string, message: string): Promise<void> {
   // Input validation
   if (!validateEmail(to)) throw new Error('Invalid email address');
   if (!subject) throw new Error('Invalid subject');
@@ -26,14 +26,13 @@ export async function SendEmail(to: string, subject: string, message: string): P
       to: to,
       subject: subject,
       text: message,
+      // html: message,
       // html: ,
       // react: FirstEmailTemplate({ firstName }),
     });
-
-    return data.id;
+    console.log(data);
   } catch (error) {
     console.error(`Failed to send email to ${to}:`, error);
-    return null;
   }
 }
 

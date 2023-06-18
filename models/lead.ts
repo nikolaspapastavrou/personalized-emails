@@ -12,23 +12,36 @@ export interface EmailI {
   
   subject: string;
   text: string;
-  date: Date;
+  date: Date | string;
 }
+
+export type Status = "Sent" | "Read" | "Replied" | "Bounced" | "Closed" | "No Longer Responding";
+
+// {
+//   "Sent",
+//   "Read",
+//   "Replied",
+//   "Bounced",
+//   "Closed",
+//   "No Longer Responding",
+// }
 
 export interface LeadI extends Document {
   name: string;
+  companyName: string;
   emailAddress: string;
   tags: string[];
-  status: string;
+  status: Status;
   conversation: EmailI[];
 }
 
 const LeadSchema: Schema = new Schema({
   name: { type: String, required: true },
+  companyName: { type: String, required: true },
   emailAddress: { type: String, required: true, unique: true },
   tags: { type: [String], required: false },
-  status: { type: String, required: true },
-  conversation: { type: [Schema.Types.ObjectId], ref: 'Email', required: false }
+  status: { type: String, required: true, default: "Sent"},
+  conversation: { type: [], required: false }
 });
 
 export default mongoose.models.Lead || mongoose.model<LeadI>('Lead', LeadSchema);
