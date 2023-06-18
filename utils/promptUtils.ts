@@ -57,9 +57,9 @@ export async function get_contents(websiteURL: string, keywords: string) {
 
   console.log(pageContents);
 
-  pageContents = pageContents.map((doc) => {doc.pageContent});
+  // pageContents = pageContents.map((doc) => {doc.pageContent});
 
-  return pageContents;
+  return 'hi';
 };
 
 export async function scrape_contents_2(websiteURL: string) {
