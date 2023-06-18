@@ -119,7 +119,6 @@ export async function startCampaign(campaignId: string): Promise<CampaignI | nul
 
     await Lead.findByIdAndUpdate(lead._id, {
       status: "Sent",
-      companyName: "Test Company Name"
     }, { new: true });
   });
 
