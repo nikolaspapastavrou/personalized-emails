@@ -73,6 +73,12 @@ export async function scrape_contents_2(websiteURL: string) {
   console.log('Retrieving index!');
   const pineconeIndex = client.Index(process.env.PINECONE_INDEX || '');
 
+  const res = await client.describeIndex({
+    name: "malflame",
+  });
+
+  console.log(res);
+
   console.log('Connected with vectorstore!');
 
   const relevantKeywords = ['about', 'information', 'mission', 'details', 'values', 'products', 'strategy'];
