@@ -17,6 +17,7 @@ export default function LeadDatabase() {
         <h1 className="text-xl font-semibold  text-slate-800 mt-10">
           Lead Database
         </h1>
+        <h1 className="text-lg  text-slate-800 mt-10">Coming Soon!</h1>
       </div>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
     </main>

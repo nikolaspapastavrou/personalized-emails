@@ -60,7 +60,7 @@ export default function NewCampaign3() {
               className="w-7 h-7 bg-white rounded-full mr-3"
               src="../progress.png"
             />
-            <p className="mr-4 h-7 text-sm font-medium mt-1">Progress: 3/4</p>
+            <p className="mr-4 h-7 text-sm font-medium mt-1">Progress: 3/3</p>
 
             <div className="w-14 h-7 bg-gray-300 rounded-full p-2 justify-center items-center flex">
               <p className="w-8 h-4 text-xs font-medium text-gray-500">Draft</p>
@@ -139,7 +139,7 @@ export default function NewCampaign3() {
         >
           <div className="flex flex-row pt-8">
             <p className="mr-4 text-xl font-medium text-black">3</p>
-            <p className="text-xl font-medium text-black">Start Campaign</p>
+            <p className="text-xl font-medium text-black">Launch Campaign</p>
           </div>
 
           {!generatedContent ? (

@@ -67,7 +67,7 @@ export default function NewCampaign2() {
               className="w-7 h-7 bg-white rounded-full mr-3"
               src="../progress.png"
             />
-            <p className="mr-4 h-7 text-sm font-medium mt-1">Progress: 2/4</p>
+            <p className="mr-4 h-7 text-sm font-medium mt-1">Progress: 2/3</p>
 
             <div className="w-14 h-7 bg-gray-300 rounded-full p-2 justify-center items-center flex">
               <p className="w-8 h-4 text-xs font-medium text-gray-500">Draft</p>
@@ -219,17 +219,7 @@ export default function NewCampaign2() {
         >
           <div className="flex flex-row">
             <p className="mr-4 text-xl font-medium text-gray-400">3</p>
-            <p className="text-xl font-medium text-gray-400">Start Campaign</p>
-          </div>
-        </div>
-
-        <div
-          className="bg-gray-300 bg-opacity-50 mt-5 flex justify-center items-center shadow-sm"
-          style={{ width: "968.24px", height: "125.40px" }}
-        >
-          <div className="flex flex-row">
-            <p className="mr-4 text-xl font-medium text-gray-400">4</p>
-            <p className=" text-xl font-medium text-gray-400">Schedule</p>
+            <p className="text-xl font-medium text-gray-400">Launch Campaign</p>
           </div>
         </div>
       </div>
