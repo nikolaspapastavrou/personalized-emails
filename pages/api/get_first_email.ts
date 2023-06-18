@@ -7,19 +7,8 @@ import * as promptUtils from '../../utils/promptUtils';
 
 import { NextRequest, NextResponse } from 'next/server';
 
-export const config = {
-  runtime: 'edge',
-};
 
-const handler = async (req: NextRequest) => {
-  const { leadCompanyOperatorName, leadCompanyName, sourceProductDescription, leadCompanyUrl, sourceEmailTemplate } = (await req.json()) as {
-    leadCompanyOperatorName?: string;
-    leadCompanyName?: string
-    sourceProductDescription?: string
-    leadCompanyUrl?: string
-    sourceEmailTemplate?: string
-  };
-
+export async function getFirstEmail(leadCompanyOperatorName, leadCompanyName, sourceProductDescription, leadCompanyUrl, sourceEmailTemplate){
   console.log(leadCompanyOperatorName);
   console.log(leadCompanyName);
   console.log(sourceProductDescription);
@@ -58,7 +47,7 @@ const handler = async (req: NextRequest) => {
 
   // Return response
   console.log('Returning response');
-  return NextRequest.json({ emailSubject: emailSubjectLine, emailBody: emailTextBody});
+  return NextResponse.json({ emailSubject: emailSubjectLine, emailBody: emailTextBody});
 };
   
   export default handler;
