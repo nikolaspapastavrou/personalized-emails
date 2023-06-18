@@ -75,7 +75,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         console.log("GetReply",
           campaign.productDescription,
           lead.website,
-          campaign.name,
+          lead.companyName,
           lead.name,
           lead.conversation.map((email) => email.text),
           campaign.serviceURL,
@@ -83,7 +83,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const replyTemplate = await getReply(
           campaign.productDescription,
           lead.website,
-          campaign.name,
+          lead.companyName,
           lead.name,
           lead.conversation.map((email) => email.text),
           campaign.serviceURL

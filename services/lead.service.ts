@@ -17,7 +17,12 @@ export async function createLead(leadData: LeadI): Promise<LeadI> {
 
   // if (!validateEmail(leadData.emailAddress)) throw new Error('Invalid email address');
   const existingLead = await Lead.findOne({ emailAddress: leadData.emailAddress });
-  if (existingLead) return existingLead;
+  // if (existingLead) return existingLead;
+  // Delete existing leads and emails for the leads.
+  if (existingLead) {
+    await deleteLeadById(existingLead._id);
+    await deleteEmailsForLead(existingLead._id);
+  }
 
   const lead = new Lead(leadData);
   return lead.save();
@@ -119,7 +124,6 @@ export async function startCampaign(campaignId: string): Promise<CampaignI | nul
 
     await Lead.findByIdAndUpdate(lead._id, {
       status: "Sent",
-      companyName: "Test Company Name"
     }, { new: true });
   });
 
@@ -147,3 +151,8 @@ export async function getEmailsForLead(leadId: string): Promise<EmailI[]> {
 export async function getCampaignForLead(leadId: string): Promise<CampaignI | null> {
   return Campaign.findOne({ leads: leadId });
 }
+
+// Delete all emails for a lead.
+export async function deleteEmailsForLead(leadId: string): Promise<void> {
+  await Email.deleteMany({ lead: leadId });
+} 
