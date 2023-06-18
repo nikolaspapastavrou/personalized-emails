@@ -5,6 +5,7 @@ import * as dotenv from "dotenv";
 import { Document } from "langchain/document";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PineconeStore } from "langchain/vectorstores/pinecone";
+import puppeteer from 'puppeteer';
 
 async function getHTML(url: string) {
   try {
@@ -57,43 +58,32 @@ export async function get_contents(websiteURL: string) {
 };
 
 export async function scrape_contents_2(websiteURL: string) {
-  console.log('Initializing client!');
-
   const client = new PineconeClient();
   await client.init({
     apiKey: process.env.PINECONE_API_KEY || '',
     environment: process.env.PINECONE_ENVIRONMENT || '',
   });
-
-  console.log('Retrieving index!');
   const pineconeIndex = client.Index(process.env.PINECONE_INDEX || '');
 
-  console.log('Connected with vectorstore!');
+  const vectorStore = await PineconeStore.fromExistingIndex(
+    new OpenAIEmbeddings(),
+    { pineconeIndex }
+  );
 
   const relevantKeywords = ['about', 'information', 'mission', 'details', 'values', 'products', 'strategy'];
   let pagesToVisit = [websiteURL];
   let pagesVisited = 0;
   let pageContents = "";
 
-  console.log('Starting loop!');
-
+  const browser = await puppeteer.launch();
 
   while (pagesVisited < 3 && pagesToVisit.length > 0) {
-    let currentPage = pagesToVisit.shift();
-    if (!currentPage) {
-      continue;
-    }
-
-    console.info(currentPage);
-
-    const url = new URL(currentPage);
-    const namespace = url.hostname;
+    let currentPage = pagesToVisit.shift() || '';
 
     try {
-      const response = await fetch(currentPage, {  headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537'
-      }});
-      const body = await response.text();
+      const page = await browser.newPage();
+      await page.goto(currentPage);
+      const body = await page.content();
 
       // Load the HTML into Cheerio
       const $ = cheerio.load(body);
@@ -101,22 +91,21 @@ export async function scrape_contents_2(websiteURL: string) {
       // Get the text of all relevant elements:
       const pTexts = $('p, h1, h2, h3, h4, h5, h6').map((_, elem) => $(elem).text()).get();
       pageContents += " " + pTexts.join(" ");
-      console.info(pageContents);
-      const vectorStore = await PineconeStore.fromExistingIndex(
-        new OpenAIEmbeddings(),
-        { namespace, pineconeIndex },
-      );
+      
+      // Extract the domain
+      const domain = new URL(currentPage || '').hostname;
+
       await vectorStore.addDocuments([new Document({
+        namespace: domain || '',
         pageContent: pageContents,
       })]);
 
       // Find new pages to visit:
-      $("a[href]").each(function() {
-        let href = $(this).attr('href') || '';
-        // Handling relative URLs:
-        href = new URL(href, currentPage).href;
+      const hrefs = await page.$$eval('a', as => as.map(a => a.href));
+      
+      hrefs.forEach(href => {
         const isRelevant = relevantKeywords.some(keyword => href.endsWith(keyword));
-
+        
         if (isRelevant && !pagesToVisit.includes(href)) {
           pagesToVisit.push(href);
         }
@@ -127,6 +116,8 @@ export async function scrape_contents_2(websiteURL: string) {
       console.error(`Failed to fetch ${currentPage}`);
     }
   }
+
+  await browser.close();
 };
 
 export async function get_subject_line_prompt(leadCompanyOperatorName, leadCompanyName, sourceProductDescription, leadCompanyInfo, sourceEmailTemplate) {
