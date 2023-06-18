@@ -37,34 +37,34 @@ export async function get_contents(websiteURL: string) {
   return pageContents;
 };
 
-export async function get_subject_line_prompt(name, company, productDescription, emailTemplate, url) {
-    const pageContents = await get_contents(url);
+export async function get_subject_line_prompt(leadCompanyOperatorName, leadCompanyName, sourceProductDescription, leadCompanyUrl, sourceEmailTemplate) {
+    const pageContents = await get_contents(leadCompanyUrl);
 
-    const subjectLinePrompt = `Information scraped from ${company} website:
+    const subjectLinePrompt = `Information scraped from ${leadCompanyName} website:
 ${pageContents}
 
 Product to sell:
-${productDescription}
+${sourceProductDescription}
 
 Email Template:
-${emailTemplate}
+${sourceEmailTemplate}
 
-Write a short, captivating, and convincing email to send to ${name} working at ${company} to sell the product described above. Only write the email body text. Do not add a subject line. Do not add quotation marks around the text. Limit the response to 75 words.`;
+Write a short, captivating, and convincing email to send to ${leadCompanyOperatorName} working at ${leadCompanyName} to sell the product described above. Only write the email body text. Do not add a subject line. Do not add quotation marks around the text. Limit the response to 75 words.`;
     return subjectLinePrompt
   };
 
-export async function get_initial_email_body_prompt(name, company, productDescription, emailTemplate, url) {
-    const pageContents = await get_contents(url);
+export async function get_email_body_prompt(leadCompanyOperatorName, leadCompanyName, sourceProductDescription, leadCompanyUrl, sourceEmailTemplate) {
+  const pageContents = await get_contents(leadCompanyUrl);
 
-    const subjectLinePrompt = `Information scraped from ${company} website:
+  const emailBodyPrompt = `Information scraped from ${leadCompanyName} website:
 ${pageContents}
 
 Product to sell:
-${productDescription}
+${sourceProductDescription}
 
 Email Template:
-${emailTemplate}
+${sourceEmailTemplate}
 
-Write a short, captivating, and convincing email to send to ${name} working at ${company} to sell the product described above. Only write the email body text. Do not add a subject line. Do not add quotation marks around the text. Limit the response to 75 words.`;
-    return pageContents
+Write a short, captivating, and convincing email to send to ${leadCompanyOperatorName} working at ${leadCompanyName} to sell the product described above. Only write the email body text. Do not add a subject line. Do not add quotation marks around the text. Limit the response to 75 words.`;
+  return emailBodyPrompt;
   };
