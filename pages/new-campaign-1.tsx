@@ -5,6 +5,7 @@ import "../app/globals.css";
 import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
 import { useState } from "react";
 import uploaded from "../public/uploaded.png";
+import { VercelRequest, VercelResponse } from '@vercel/node';
 
 export default function Home() {
   // Add new type that has email, name, and url
