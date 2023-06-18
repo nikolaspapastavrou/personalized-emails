@@ -14,7 +14,7 @@ export default function Sidebar({ selected }: { selected: number }) {
             {/* <span className="ml-3  font-bold">Mailflame</span> */}
             <img
               style={{ height: "30px", marginLeft: "5px" }}
-              src={"logo.svg"}
+              src={"../logo.svg"}
             />
           </li>
           <li>
