@@ -1,6 +1,6 @@
 // services/email.service.ts
 import { Resend } from "resend";
-import { FirstEmailTemplate } from '../components/EmailTemplate';
+// import { FirstEmailTemplate } from '../components/EmailTemplate';
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Validate email address.
@@ -16,7 +16,7 @@ function sleep(ms: number) {
 // Given an email address and a first name, send an email, if successful return the Resend response ID.
 export async function SendEmail(to: string, subject: string, message: string): Promise<void> {
   // Input validation
-  if (!validateEmail(to)) throw new Error('Invalid email address');
+  // if (!validateEmail(to)) throw new Error('Invalid email address');
   if (!subject) throw new Error('Invalid subject');
   if (!message) throw new Error('Invalid message');
 
@@ -36,23 +36,25 @@ export async function SendEmail(to: string, subject: string, message: string): P
   }
 }
 
-export async function SendFirstEmail(to: string, firstName: string): Promise<string | null> {
-  // Input validation
-  // if (!validateEmail(to)) throw new Error('Invalid email address');
-  if (!firstName) throw new Error('Invalid first name');
+//deprecated
 
-  try {
-    const data = await resend.emails.send({
-      from: "isaiah@warmemailleads.com",
-      to: to,
-      subject: "Warm Email Leads - Personalized Email Outreach",
-      // html: ,
-      react: FirstEmailTemplate({ firstName }),
-    });
+// export async function SendFirstEmail(to: string, firstName: string): Promise<string | null> {
+//   // Input validation
+//   // if (!validateEmail(to)) throw new Error('Invalid email address');
+//   if (!firstName) throw new Error('Invalid first name');
 
-    return data.id;
-  } catch (error) {
-    console.error(`Failed to send email to ${to}:`, error);
-    return null;
-  }
-}
+//   try {
+//     const data = await resend.emails.send({
+//       from: "isaiah@warmemailleads.com",
+//       to: to,
+//       subject: "Warm Email Leads - Personalized Email Outreach",
+//       // html: ,
+//       react: FirstEmailTemplate({ firstName }),
+//     });
+
+//     return data.id;
+//   } catch (error) {
+//     console.error(`Failed to send email to ${to}:`, error);
+//     return null;
+//   }
+// }

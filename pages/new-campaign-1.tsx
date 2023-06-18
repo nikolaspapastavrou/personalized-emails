@@ -37,20 +37,28 @@ export default function NewCampaign1() {
 
     const data = await res.json();
 
-    // const res2 = await fetch("/api/campaign/", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     name: "Draft Campaign",
-    //     isActive: false,
-    //     maxDailyEmailsToSend: 50, // TODO: Hardcoding this for now
-    //     productDescription: "Draft",
-    //     emailTemplate: "Draft",
-    //     serviceURL: "Draft",
-    //   }),
-    // });
+    const res2 = await fetch("/api/leads/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        leads: uploadedLeads,
+      }),
+    });
+    const leadsData = await res2.json();
+    console.log(leadsData);
+
+    const res3 = await fetch("/api/campaign/add-leads", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        leadIds: leadsData.leads.map((lead: any) => lead._id),
+        campaignId: data._id,
+      }),
+    });
 
     window.location.href = "/new-campaign-2/" + data._id;
   };
@@ -122,9 +130,9 @@ export default function NewCampaign1() {
                           const csv = e.target.result;
                           const lines = csv.toString().split("\n");
                           const emails = lines.map(
-                            (line) => line.split(",")[0]
+                            (line) => line.split(",")[1]
                           );
-                          const names = lines.map((line) => line.split(",")[1]);
+                          const names = lines.map((line) => line.split(",")[0]);
                           const urls = lines.map((line) => line.split(",")[2]);
 
                           // convert into a lead object

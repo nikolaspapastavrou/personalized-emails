@@ -3,20 +3,33 @@ import Navbar from "../../components/navigation/Navbar";
 import Sidebar from "../../components/navigation/Sidebar";
 import "../../app/globals.css";
 import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import uploaded from "../public/uploaded.png";
 import { VercelRequest, VercelResponse } from "@vercel/node";
 import { useRouter } from "next/router";
+import { CampaignI } from "../../models/campaign";
 
 export default function NewCampaign2() {
   const [productDescription, setProductDescription] = useState("");
   const [serviceLink, setServiceLink] = useState("");
   const [emailTemplates, setEmailTemplates] = useState("");
   const [campaignName, setCampaignName] = useState("");
+  const [selectedCampaign, setSelectedCampaign] = useState<CampaignI>();
 
   //get param from url
   const router = useRouter();
   const { id } = router.query;
+
+  useEffect(() => {
+    if (!id) return;
+    // Fetch all campaigns from the API: /api/campaign
+    fetch("/api/campaign/" + id)
+      .then((res) => res.json())
+      .then((data) => {
+        setSelectedCampaign(data.campaign);
+        console.log(data);
+      });
+  }, [id]);
 
   const confirmDetails = async () => {
     const res = await fetch("/api/campaign/" + id, {
@@ -80,10 +93,17 @@ export default function NewCampaign2() {
               src={"../uploaded.png"}
               className="w-10 h-10 flex justify-center items-center"
             />
+            <div>
+              <p className="w-72 h-20 mt-2 mr-4 ml-4 text-xl font-medium">
+                Select Leads
+              </p>
+              {selectedCampaign && (
+                <p className=" mr-4 ml-4 text-sm font-medium">
+                  {selectedCampaign.leads.length} recipients selected
+                </p>
+              )}
+            </div>
 
-            <p className="w-72 h-20 mt-2 mr-4 ml-4 text-xl font-medium">
-              Select Leads
-            </p>
             <div className="flex-grow" />
 
             <button
@@ -189,7 +209,7 @@ export default function NewCampaign2() {
               }
             }}
           >
-            Confirm
+            Start Campaign
           </button>
         </div>
 
@@ -199,9 +219,7 @@ export default function NewCampaign2() {
         >
           <div className="flex flex-row">
             <p className="mr-4 text-xl font-medium text-gray-400">3</p>
-            <p className="text-xl font-medium text-gray-400">
-              Email Content Generation
-            </p>
+            <p className="text-xl font-medium text-gray-400">Start Campaign</p>
           </div>
         </div>
 
