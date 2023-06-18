@@ -38,7 +38,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       if (!lead) {
         // If no corresponding lead was found, ignore the message
         console.log(`😭 No lead found for email ${incomingEmail.senderEmail}`);
-        await EmailService.SendEmail(incomingEmail.senderEmail, "No lead found", "Who are you, and why are you emailing me?");
+        await EmailService.SendEmail(incomingEmail.senderEmail, incomingEmail.subject, "You are not a lead? Who are you, and why are you emailing me?");
         return res.status(200).end();
       }
 

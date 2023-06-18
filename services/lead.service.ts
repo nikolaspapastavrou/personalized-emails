@@ -10,8 +10,20 @@ export function validateEmail(email: string): boolean {
 
 // Lead services
 export async function createLead(leadData: LeadI): Promise<LeadI> {
+  // Check if email address already exists.
+  if (!validateEmail(leadData.emailAddress)) throw new Error('Invalid email address');
+  const existingLead = await Lead.findOne({ emailAddress: leadData.emailAddress });
+  if (existingLead) return existingLead;
+  
   const lead = new Lead(leadData);
   return lead.save();
+}
+
+export async function createLeads(leadsData: LeadI[]): Promise<LeadI[]> {
+  const leads = await Promise.all(leadsData.map(async (leadData) => {
+    return createLead(leadData);
+  }));
+  return leads;
 }
 
 export async function getLeads(): Promise<LeadI[]> {
