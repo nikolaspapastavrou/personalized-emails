@@ -13,6 +13,7 @@ import dbConnect from '../../../middleware/mongoose.middleware';
 import * as LeadService from '../../../services/lead.service';
 // import type Emaill from "../../../models/lead";
 import * as EmailService from '../../../services/email.service';
+import { EmailI } from "../../../models/email";
 
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -25,7 +26,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (req.method === 'POST') {
     try {
-      const incomingEmail: Emaill = req.body;
+      const incomingEmail: EmailI = req.body;
       if (incomingEmail.senderEmail == "isaiah@warmemailleads.com") {
         // If no corresponding lead was found, ignore the message
         return res.status(200).end();
@@ -43,8 +44,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
 
       // Update the conversation state with the new message
-      lead.conversation.push(incomingEmail);
-      await LeadService.updateLeadById(lead._id, { conversation: lead.conversation });
+      LeadService.createEmail({...incomingEmail, lead: lead._id});
+      // lead.conversation.push(incomingEmail);
+      // await LeadService.updateLeadById(lead._id, { conversation: lead.conversation });
 
       // Determine if we should respond or if we should escalate to a human
       // Insert your decision logic here
