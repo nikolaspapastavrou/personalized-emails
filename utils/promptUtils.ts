@@ -142,7 +142,7 @@ export async function get_subject_line_prompt(leadCompanyOperatorName, leadCompa
     console.log(leadCompanyInfo);
 
     const subjectLinePrompt = `The following list of documents are retrieved from ${leadCompanyName} website:
-${leadCompanyInfo}
+${JSON.stringify(leadCompanyInfo)}
 
 Product to sell:
 ${sourceProductDescription}
@@ -157,7 +157,7 @@ Write the subject line for an email that will be sent to send to ${leadCompanyOp
 export async function get_email_body_prompt(leadCompanyOperatorName, leadCompanyName, sourceProductDescription, leadCompanyInfo, sourceEmailTemplate) {
 
   const emailBodyPrompt = `The following list of documents are retrieved from ${leadCompanyName} website:
-${leadCompanyInfo}
+${JSON.stringify(leadCompanyInfo)}
 
 Product to sell:
 ${sourceProductDescription}
@@ -172,7 +172,7 @@ Write a short, captivating, and convincing email to send to ${leadCompanyOperato
 
   export async function get_reply_body(emailConversation: string[], sourceProductDescription: string, sourceMeetingLink: string, leadCompanyName: string, leadCompanyOperatorName: string, leadCompanyInfo: any) {
     const subjectLinePrompt = `The following list of documents are retrieved from ${leadCompanyName} website:
-${leadCompanyInfo}
+${JSON.stringify(leadCompanyInfo)}
 
 Product to sell:
 ${sourceProductDescription}
