@@ -37,11 +37,10 @@ export async function get_contents(websiteURL: string) {
   return pageContents;
 };
 
-export async function get_subject_line_prompt(leadCompanyOperatorName, leadCompanyName, sourceProductDescription, leadCompanyUrl, sourceEmailTemplate) {
-    const pageContents = await get_contents(leadCompanyUrl);
+export async function get_subject_line_prompt(leadCompanyOperatorName, leadCompanyName, sourceProductDescription, leadCompanyInfo, sourceEmailTemplate) {
 
     const subjectLinePrompt = `Information scraped from ${leadCompanyName} website:
-${pageContents}
+${leadCompanyInfo}
 
 Product to sell:
 ${sourceProductDescription}
@@ -53,11 +52,10 @@ Write a short, captivating, and convincing email to send to ${leadCompanyOperato
     return subjectLinePrompt
   };
 
-export async function get_email_body_prompt(leadCompanyOperatorName, leadCompanyName, sourceProductDescription, leadCompanyUrl, sourceEmailTemplate) {
-  const pageContents = await get_contents(leadCompanyUrl);
+export async function get_email_body_prompt(leadCompanyOperatorName, leadCompanyName, sourceProductDescription, leadCompanyInfo, sourceEmailTemplate) {
 
   const emailBodyPrompt = `Information scraped from ${leadCompanyName} website:
-${pageContents}
+${leadCompanyInfo}
 
 Product to sell:
 ${sourceProductDescription}
