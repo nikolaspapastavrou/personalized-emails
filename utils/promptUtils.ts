@@ -6,6 +6,10 @@ import { Document } from "langchain/document";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PineconeStore } from "langchain/vectorstores/pinecone";
 
+function delay(ms: number) {
+  return new Promise( resolve => setTimeout(resolve, ms) );
+}
+
 async function getHTML(url: string) {
   try {
       const response = await fetch(url);
@@ -34,26 +38,35 @@ async function processHTML(url: string) {
   return pTextsJoined;
 }
 
-export async function get_contents(websiteURL: string) {
+export async function get_contents(websiteURL: string, keywords: string) {
 
-  
+  const namespace = new URL(websiteURL).hostname || '';
+  console.log(namespace);
+  console.log(keywords);
+
   const client = new PineconeClient();
   await client.init({
     apiKey: process.env.PINECONE_API_KEY || '',
     environment: process.env.PINECONE_ENVIRONMENT || '',
   });
-  const pineconeIndex = client.Index(process.env.PINECONE_INDEX || '');
+  const pineconeIndex = client.Index (process.env.PINECONE_INDEX || '');
 
   const vectorStore = await PineconeStore.fromExistingIndex(
     new OpenAIEmbeddings(),
-    { pineconeIndex }
+    { namespace, pineconeIndex },
   );
 
-  console.info(websiteURL);
+  console.log(pineconeIndex);
 
-  const pageContents = await processHTML(websiteURL);
+  console.log('before');
+  let pageContents = await vectorStore.similaritySearch(keywords, 2);
+  console.log('after');
 
-  return pageContents;
+  await delay(5000);
+  console.log(pageContents);
+  // pageContents = pageContents.map((doc) => {doc.pageContent});
+  // console.log(pageContents);
+  return 'hi';
 };
 
 export async function scrape_contents_2(websiteURL: string) {
@@ -90,9 +103,7 @@ export async function scrape_contents_2(websiteURL: string) {
     const namespace = url.hostname;
 
     try {
-      const response = await fetch(currentPage, {  headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537'
-      }});
+      const response = await fetch(currentPage);
       const body = await response.text();
 
       // Load the HTML into Cheerio
@@ -114,7 +125,7 @@ export async function scrape_contents_2(websiteURL: string) {
       $("a[href]").each(function() {
         let href = $(this).attr('href') || '';
         // Handling relative URLs:
-        href = new URL(href, currentPage).href;
+        href = new URL(href || '', currentPage).href;
         const isRelevant = relevantKeywords.some(keyword => href.endsWith(keyword));
 
         if (isRelevant && !pagesToVisit.includes(href)) {
@@ -124,6 +135,7 @@ export async function scrape_contents_2(websiteURL: string) {
 
       pagesVisited++;
     } catch (error) {
+      console.error(error.message);
       console.error(`Failed to fetch ${currentPage}`);
     }
   }
