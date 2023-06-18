@@ -64,9 +64,10 @@ export async function get_contents(websiteURL: string, keywords: string) {
 
   await delay(5000);
   console.log(pageContents);
-  // pageContents = pageContents.map((doc) => {doc.pageContent});
-  // console.log(pageContents);
-  return 'hi';
+  // @ts-ignore
+  pageContents = pageContents.map((doc) => {doc.pageContent});
+  console.log(pageContents);
+  return pageContents;
 };
 
 export async function scrape_contents_2(websiteURL: string) {

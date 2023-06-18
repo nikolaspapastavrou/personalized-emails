@@ -2,15 +2,29 @@ import Image from "next/image";
 import Navbar from "../components/navigation/Navbar";
 import Sidebar from "../components/navigation/Sidebar";
 import "../app/globals.css";
+import { useEffect } from "react";
+import React from "react";
+import { CampaignI } from "../models/campaign";
 
 export default function Home() {
+  const [campaigns, setCampaigns] = React.useState<CampaignI[]>();
+
+  useEffect(() => {
+    // Fetch all campaigns from the API: /api/campaign
+    fetch("/api/campaign")
+      .then((res) => res.json())
+      .then((data) => {
+        setCampaigns(data);
+      });
+  }, []);
+
   return (
     <main className=" bg-white">
       <link
         href="https://fonts.googleapis.com/css2?family=Sarabun&display=swap"
         rel="stylesheet"
       />
-      <link rel="icon" href="/favicon.ico" />
+      <link rel="icon" href="/images/favicon.ico" />
 
       <title>Mailflame: Campaigns</title>
 
@@ -52,19 +66,31 @@ export default function Home() {
           Ongoing Projects
         </h1>
 
-        <a
-          href="/campaign/1"
-          className="bg-gradient-to-b rounded-lg shadow-lg p-0 flex flex-col items-center justify-center mt-10"
-          style={{ width: "300px", height: "200px" }}
-        >
-          <img src={"campaign-cover.png"} className="rounded-t-lg" />
-          <div
-            className="bg-white rounded-b-lg shadow-lg p-6 flex flex-col items-center justify-center mt-auto"
-            style={{ width: "300px", height: "100px" }}
-          >
-            <h2 className="text-lg ">Campaign 1</h2>
+        {campaigns ? (
+          <div className={`grid grid-cols-3 gap-4`}>
+            {campaigns.map((campaign) => (
+              <a
+                href={
+                  campaign.name === "Draft Campaign"
+                    ? "/new-campaign-2/" + campaign._id
+                    : "/campaign/" + campaign._id
+                }
+                className="bg-gradient-to-b rounded-lg shadow-lg p-0 flex flex-col items-center justify-center mt-10"
+                style={{ width: "300px", height: "200px" }}
+              >
+                <img src={"campaign-cover.png"} className="rounded-t-lg" />
+                <div
+                  className="bg-white rounded-b-lg shadow-lg p-6 flex flex-col items-center justify-center mt-auto"
+                  style={{ width: "300px", height: "100px" }}
+                >
+                  <h2 className="text-lg ">{campaign.name}</h2>
+                </div>
+              </a>
+            ))}
           </div>
-        </a>
+        ) : (
+          <div />
+        )}
       </div>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
     </main>

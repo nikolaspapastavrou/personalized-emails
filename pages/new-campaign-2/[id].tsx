@@ -1,16 +1,41 @@
 import Image from "next/image";
-import Navbar from "../components/navigation/Navbar";
-import Sidebar from "../components/navigation/Sidebar";
-import "../app/globals.css";
+import Navbar from "../../components/navigation/Navbar";
+import Sidebar from "../../components/navigation/Sidebar";
+import "../../app/globals.css";
 import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
 import { useState } from "react";
 import uploaded from "../public/uploaded.png";
 import { VercelRequest, VercelResponse } from "@vercel/node";
+import { useRouter } from "next/router";
 
 export default function NewCampaign2() {
   const [productDescription, setProductDescription] = useState("");
   const [serviceLink, setServiceLink] = useState("");
   const [emailTemplates, setEmailTemplates] = useState("");
+  const [campaignName, setCampaignName] = useState("");
+
+  //get param from url
+  const router = useRouter();
+  const { id } = router.query;
+
+  const confirmDetails = async () => {
+    const res = await fetch("/api/campaign/" + id, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        productDescription: productDescription,
+        emailTemplate: emailTemplates,
+        serviceURL: serviceLink,
+        name: campaignName,
+      }),
+    });
+
+    const data = await res.json();
+
+    window.location.href = "/new-campaign-3/" + id;
+  };
 
   return (
     <main className=" bg-white">
@@ -27,7 +52,7 @@ export default function NewCampaign2() {
           <div className="flex flex-row">
             <img
               className="w-7 h-7 bg-white rounded-full mr-3"
-              src="progress.png"
+              src="../progress.png"
             />
             <p className="mr-4 h-7 text-sm font-medium mt-1">Progress: 2/4</p>
 
@@ -44,7 +69,7 @@ export default function NewCampaign2() {
           <div className="border-b-2 border-gray-200 mt-4" />
         </div>
         <h1 className="text-xl font-semibold  text-slate-800 mt-10">
-          Campaign Name
+          New Campaign
         </h1>
         <div
           className="bg-white border border-gray-200 p-8 mt-4"
@@ -52,7 +77,7 @@ export default function NewCampaign2() {
         >
           <div className="flex flex-row">
             <img
-              src={"uploaded.png"}
+              src={"../uploaded.png"}
               className="w-10 h-10 flex justify-center items-center"
             />
 
@@ -71,6 +96,7 @@ export default function NewCampaign2() {
             >
               Edit
             </button>
+            {/* TODO: this needs to pass the id and go to a new page */}
           </div>
         </div>
 
@@ -83,6 +109,21 @@ export default function NewCampaign2() {
             <p className="text-xl font-medium text-black">Sales Information</p>
           </div>
 
+          <div className="mb-6 mt-5  w-10/12">
+            <label
+              htmlFor="large-input"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Campaign Name
+            </label>
+            <input
+              type="text"
+              id="service-link"
+              value={campaignName}
+              onChange={(e) => setCampaignName(e.target.value)}
+              className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            />
+          </div>
           <div className="mb-6 mt-5  w-10/12">
             <label
               htmlFor="large-input"
@@ -141,9 +182,10 @@ export default function NewCampaign2() {
               if (
                 emailTemplates !== "" &&
                 serviceLink !== "" &&
-                productDescription !== ""
+                productDescription !== "" &&
+                campaignName !== ""
               ) {
-                window.location.href = "/new-campaign-3";
+                confirmDetails();
               }
             }}
           >

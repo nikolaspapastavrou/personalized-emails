@@ -11,6 +11,7 @@ import { Resend } from "resend";
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import dbConnect from '../../../middleware/mongoose.middleware';
 import * as LeadService from '../../../services/lead.service';
+// import type Emaill from "../../../models/lead";
 import * as EmailService from '../../../services/email.service';
 import { EmailI } from "../../../models/email";
 
