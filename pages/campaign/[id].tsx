@@ -4,6 +4,7 @@ import Sidebar from "../../components/navigation/Sidebar";
 import { CampaignI } from "../../models/campaign"; // assuming this path is correct
 import { LeadI, Status } from "../../models/lead"; // assuming this path is correct
 import "../../app/globals.css";
+import { useState } from "react";
 
 interface CampaignProps {
   campaign: CampaignI;
@@ -60,6 +61,8 @@ export default function Campaign({ campaign }: CampaignProps) {
     },
   ];
 
+  const [selectedTab, setSelectedTab] = useState(0);
+
   return (
     <main className=" bg-white">
       <link
@@ -71,7 +74,7 @@ export default function Campaign({ campaign }: CampaignProps) {
       <div>
         <Navbar />
 
-        <div className=" sm:ml-[270px] m-10">
+        <div className=" sm:ml-[280px] m-10">
           <h1 className="text-2xl font-bold  text-slate-800 mt-10">
             Campaign {campaign._id}
           </h1>
@@ -80,7 +83,7 @@ export default function Campaign({ campaign }: CampaignProps) {
           </h2>
           <p className="text-sm font-light text-slate-500">Updated daily</p>
 
-        {/* Engagement Stats */}
+          {/* Engagement Stats */}
           <div className="bg-gray-100 rounded-xl mt-5">
             <div className="mx-auto max-w-7xl">
               <div className="grid grid-cols-1 gap-pxsm:grid-cols-2 lg:grid-cols-4 rounded-2xl">
@@ -110,12 +113,200 @@ export default function Campaign({ campaign }: CampaignProps) {
             </div>
           </div>
 
-        {/* Leads Status Table | Sent 🧊 | Read 😶 | No Longer Responding 😴 | Responded 💬 | Closed 🥰 | */}
-        {/* Tab bar that toggles the table view below. Emoji's in the tab bar are in a circle with different light pastel color, and the text beside them */}
+          {/* Leads Status Table | Sent 🧊 | Read 😶 | No Longer Responding 😴 | Responded 💬 | Closed 🥰 | */}
+          {/* Tab bar that toggles the table view below. Emoji's in the tab bar are in a circle with different light pastel color, and the text beside them */}
 
+          <div
+            className="inline-flex  mt-8 items-center justify-start space-between"
+            style={{ height: "32px" }}
+          >
+            <div
+              className="flex space-x-2 items-center justify-start w-[12rem]"
+              onClick={() => setSelectedTab(0)}
+            >
+              <div className="flex items-center justify-center w-8 h-full px-2 py-1 bg-red-100 rounded-full">
+                <p className="text-base leading-normal text-gray-900">🥰 </p>
+              </div>
+              <p
+                className={
+                  selectedTab === 0
+                    ? "text-base leading-normal text-black"
+                    : "text-base leading-normal text-gray-400"
+                }
+              >
+                Closed{" "}
+                <span
+                  style={{ color: selectedTab === 0 ? "#3D7FE7" : undefined }}
+                >
+                  3
+                </span>
+              </p>
+            </div>
+            <div
+              className="flex space-x-2 items-center justify-start w-[12rem]"
+              onClick={() => setSelectedTab(1)}
+            >
+              <div className="flex items-center justify-center w-8 h-full px-2 py-1 bg-yellow-100 rounded-full">
+                <p className="text-base leading-normal text-gray-900">💬 </p>
+              </div>
+              <p
+                className={
+                  selectedTab === 1
+                    ? "text-base leading-normal text-black"
+                    : "text-base leading-normal text-gray-400"
+                }
+              >
+                Responded{" "}
+                <span
+                  style={{ color: selectedTab === 1 ? "#3D7FE7" : undefined }}
+                >
+                  10
+                </span>
+              </p>
+            </div>
+            <div
+              className="flex space-x-2 items-center justify-start w-[12rem]"
+              onClick={() => setSelectedTab(2)}
+            >
+              <div className="flex items-center justify-center w-8 h-full px-2 py-1 bg-gray-100 rounded-full">
+                <p className="text-base leading-normal text-gray-900">😶 </p>
+              </div>
+              <p
+                className={
+                  selectedTab === 2
+                    ? "text-base leading-normal text-black"
+                    : "text-base leading-normal text-gray-400"
+                }
+              >
+                Read{" "}
+                <span
+                  style={{ color: selectedTab === 2 ? "#3D7FE7" : undefined }}
+                >
+                  10
+                </span>
+              </p>
+            </div>
+            <div
+              className="flex space-x-2 items-center justify-start w-[12rem]"
+              onClick={() => setSelectedTab(3)}
+            >
+              <div className="flex items-center justify-center w-8 h-full px-2 py-1 bg-gray-200 rounded-full">
+                <p className="text-base leading-normal text-gray-900">🧊 </p>
+              </div>
+              <p
+                className={
+                  selectedTab === 3
+                    ? "text-base leading-normal text-black"
+                    : "text-base leading-normal text-gray-400"
+                }
+              >
+                Sent{" "}
+                <span
+                  style={{ color: selectedTab === 3 ? "#3D7FE7" : undefined }}
+                >
+                  50
+                </span>
+              </p>
+            </div>
+            <div
+              className="flex space-x-2 items-center justify-start "
+              onClick={() => setSelectedTab(4)}
+            >
+              <div className="flex items-center justify-center w-8 h-full px-2 py-1 bg-gray-200 rounded-full">
+                <p className="text-base leading-normal text-gray-900">😴 </p>
+              </div>
+              <p
+                className={
+                  selectedTab === 4
+                    ? "text-base leading-normal text-black"
+                    : "text-base leading-normal text-gray-400"
+                }
+              >
+                No Longer Responding{" "}
+                <span
+                  style={{ color: selectedTab === 4 ? "#3D7FE7" : undefined }}
+                >
+                  10
+                </span>
+              </p>
+            </div>
+          </div>
+          <div
+            style={{
+              marginLeft: (selectedTab * 12).toString() + "rem",
+            }}
+            className="w-28 h-0.5 mt-2 bg-gray-300 rounded-full mb-4"
+          />
+
+          {/* Table */}
+          <div className="relative overflow-x-auto mt-4 mr-4">
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                  <th scope="col" className="px-6 py-3">
+                    Name
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Email
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Subject
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Text
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Date
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    John Doe
+                  </th>
+                  <td className="px-6 py-4">johndoe@gmail.com</td>
+                  <td className="px-6 py-4">Greetings from...</td>
+                  <td className="px-6 py-4">
+                    According to all known laws of physics...
+                  </td>
+                  <td className="px-6 py-4">06/17/2023</td>
+                </tr>
+                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    Jane Doe
+                  </th>
+                  <td className="px-6 py-4">janedoe@gmail.com</td>
+                  <td className="px-6 py-4">Greetings from...</td>
+                  <td className="px-6 py-4">
+                    According to all known laws of physics...
+                  </td>
+                  <td className="px-6 py-4">06/17/2023</td>
+                </tr>
+                <tr className="bg-white dark:bg-gray-800">
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    Joseph M. Ama
+                  </th>
+                  <td className="px-6 py-4">joemama@gmail.com</td>
+                  <td className="px-6 py-4">Greetings from...</td>
+                  <td className="px-6 py-4">
+                    According to all known laws of physics...
+                  </td>
+                  <td className="px-6 py-4">06/17/2023</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-
-        
       </div>
     </main>
   );

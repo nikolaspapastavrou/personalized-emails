@@ -8,14 +8,9 @@ import uploaded from "../public/uploaded.png";
 import { VercelRequest, VercelResponse } from "@vercel/node";
 
 export default function NewCampaign2() {
-  // Add new type that has email, name, and url
-  type Lead = {
-    email: string;
-    name: string;
-    url: string;
-  };
-
-  const [uploadedLeads, setUploadedLeads] = useState<Lead[]>([]);
+  const [productDescription, setProductDescription] = useState("");
+  const [serviceLink, setServiceLink] = useState("");
+  const [emailTemplates, setEmailTemplates] = useState("");
 
   return (
     <main className=" bg-white">
@@ -98,6 +93,8 @@ export default function NewCampaign2() {
             <textarea
               id="product-description"
               rows={4}
+              value={productDescription}
+              onChange={(e) => setProductDescription(e.target.value)}
               className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
           </div>
@@ -111,6 +108,8 @@ export default function NewCampaign2() {
             <input
               type="text"
               id="service-link"
+              value={serviceLink}
+              onChange={(e) => setServiceLink(e.target.value)}
               className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
           </div>
@@ -124,14 +123,28 @@ export default function NewCampaign2() {
             <textarea
               rows={6}
               id="email-templates"
+              value={emailTemplates}
+              onChange={(e) => setEmailTemplates(e.target.value)}
               className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
           </div>
 
           <button
-            className="bg-blue-500 mt-10 mb-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className={
+              emailTemplates !== "" &&
+              serviceLink !== "" &&
+              productDescription !== ""
+                ? "bg-blue-500 mt-10 mb-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                : "bg-gray-200 mt-10 mb-10  text-white font-bold py-2 px-4 rounded"
+            }
             onClick={() => {
-              window.location.href = "/new-campaign-3";
+              if (
+                emailTemplates !== "" &&
+                serviceLink !== "" &&
+                productDescription !== ""
+              ) {
+                window.location.href = "/new-campaign-3";
+              }
             }}
           >
             Confirm

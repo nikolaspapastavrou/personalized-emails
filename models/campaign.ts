@@ -3,6 +3,7 @@ import mongoose, { Document, Schema } from 'mongoose';
 import { LeadI } from './lead';
 
 export interface CampaignI extends Document {
+  _id: string;
   name: string;
   leads: Partial<LeadI>[];
   maxDailyEmailsToSend: number;
