@@ -14,24 +14,22 @@ export const config = {
 };
 
 const handler = async (req, res) => {
+  const { leadCompanyOperatorName, leadCompanyName, sourceProductDescription, leadCompanyUrl, sourceEmailTemplate } = (await req.json()) as {
+    leadCompanyOperatorName?: string;
+    leadCompanyName?: string
+    sourceProductDescription?: string
+    leadCompanyUrl?: string
+    sourceEmailTemplate?: string
+  };
+
   console.log(req);
   console.log(Object.keys(req));
   console.log(req.body);
   console.log(req.query);
-  
-  const { form } = req;
-
-  // Get variables
-  console.log('Getting variables');
-  const leadCompanyOperatorName = form.leadCompanyOperatorName;
-  const leadCompanyName = form.leadCompanyName;
-  const sourceProductDescription = form.sourceProductDescription;
-  const leadCompanyUrl = form.leadCompanyUrl;
-  const sourceEmailTemplate = form.sourceEmailTemplate;
 
   // Get company info from url
   console.log('Getting company info');
-  const companyInfo = await promptUtils.get_contents(leadCompanyUrl);
+  const companyInfo = await promptUtils.get_contents(leadCompanyUrl || '');
   
   // Create prompts
   console.log('Constructing prompts');
