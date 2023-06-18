@@ -5,9 +5,9 @@ import "../app/globals.css";
 import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
 import { useState } from "react";
 import uploaded from "../public/uploaded.png";
-import { VercelRequest, VercelResponse } from '@vercel/node';
+import { VercelRequest, VercelResponse } from "@vercel/node";
 
-export default function Home() {
+export default function NewCampaign1() {
   // Add new type that has email, name, and url
   type Lead = {
     email: string;
@@ -172,8 +172,11 @@ export default function Home() {
 
         <div className=" pt-5 pb-4">
           <div className="flex flex-row">
-            <div className="w-7 h-7 bg-gray-300 rounded-full mr-3" />
-            <p className="mr-4 h-7 text-sm font-medium mt-1">Progress: 1/3</p>
+            <img
+              className="w-7 h-7 bg-white rounded-full mr-3"
+              src="progress.png"
+            />
+            <p className="mr-4 h-7 text-sm font-medium mt-1">Progress: 1/4</p>
 
             <div className="w-14 h-7 bg-gray-300 rounded-full p-2 justify-center items-center flex">
               <p className="w-8 h-4 text-xs font-medium text-gray-500">Draft</p>
@@ -230,10 +233,10 @@ export default function Home() {
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
                     <th scope="col" className="px-6 py-3">
-                      Email
+                      Name
                     </th>
                     <th scope="col" className="px-6 py-3">
-                      Name
+                      Email
                     </th>
                     <th scope="col" className="px-6 py-3">
                       URL
@@ -380,16 +383,37 @@ export default function Home() {
                   </li>
                 </ul>
               </nav>
+
+              <button
+                className="bg-blue-500 mt-20 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                onClick={() => {
+                  window.location.href = "/new-campaign-2";
+                }}
+              >
+                Confirm
+              </button>
             </div>
           )}
         </div>
 
         <div
-          className="bg-gray-300 bg-opacity-50 flex justify-center items-center shadow-sm mt-40"
+          className="bg-gray-300 bg-opacity-50 flex justify-center items-center shadow-sm mt-20"
           style={{ width: "968.24px", height: "125.40px" }}
         >
           <div className="flex flex-row">
             <p className="mr-4 text-xl font-medium text-gray-400">2</p>
+            <p className="text-xl font-medium text-gray-400">
+              Sales Information
+            </p>
+          </div>
+        </div>
+
+        <div
+          className="bg-gray-300 bg-opacity-50 flex justify-center items-center shadow-sm mt-5"
+          style={{ width: "968.24px", height: "125.40px" }}
+        >
+          <div className="flex flex-row">
+            <p className="mr-4 text-xl font-medium text-gray-400">3</p>
             <p className="text-xl font-medium text-gray-400">
               Email Content Generation
             </p>
@@ -401,7 +425,7 @@ export default function Home() {
           style={{ width: "968.24px", height: "125.40px" }}
         >
           <div className="flex flex-row">
-            <p className="mr-4 text-xl font-medium text-gray-400">3</p>
+            <p className="mr-4 text-xl font-medium text-gray-400">4</p>
             <p className=" text-xl font-medium text-gray-400">Schedule</p>
           </div>
         </div>
