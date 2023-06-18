@@ -37,5 +37,3 @@ export async function get_contents(websiteURL: string) {
 
     return pageContents;
   };
-  
-  export default handler;
