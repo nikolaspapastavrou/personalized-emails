@@ -1,7 +1,6 @@
 import fetch from 'node-fetch';
 import * as cheerio from 'cheerio';
 import { get_contents } from './get_website_contents';
-import { } 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { OpenAIStream, OpenAIStreamPayload } from "../../utils/OpenAIStream";
 
