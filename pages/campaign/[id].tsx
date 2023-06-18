@@ -55,6 +55,14 @@ export default function Campaign({ campaign }: CampaignProps) {
       lead.status === "Closed"
   ).length;
 
+  const numRead = selectedCampaign.leads.filter(
+    (lead) => lead.status === "Read"
+  ).length;
+
+  const numSentStatus = selectedCampaign.leads.filter(
+    (lead) => lead.status === "Sent"
+  ).length;
+
   // It's been replied if, the status is Replied, Closed.
   const numReplied = selectedCampaign.leads.filter(
     (lead) => lead.status === "Replied" || lead.status === "Closed"
@@ -246,7 +254,7 @@ export default function Campaign({ campaign }: CampaignProps) {
                 <span
                   style={{ color: selectedTab === 2 ? "#3D7FE7" : undefined }}
                 >
-                  {numOpened}
+                  {numRead}
                 </span>
               </p>
             </div>
@@ -268,7 +276,7 @@ export default function Campaign({ campaign }: CampaignProps) {
                 <span
                   style={{ color: selectedTab === 3 ? "#3D7FE7" : undefined }}
                 >
-                  {numSent}
+                  {numSentStatus}
                 </span>
               </p>
             </div>
