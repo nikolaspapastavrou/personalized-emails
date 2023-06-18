@@ -18,7 +18,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   } else {
     console.log('Starting scraping terrastor!');
     // await scrape_contents_2('https://www.terrastor.co');
-    const namespace = new URL(websiteURL).hostname || '';
+    const namespace = new URL('https://www.terrastor.co').hostname || '';
 
     const client = new PineconeClient();
     await client.init({
