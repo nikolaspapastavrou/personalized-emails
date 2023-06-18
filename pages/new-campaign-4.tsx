@@ -14,6 +14,11 @@ export default function NewCampaign3() {
         href="https://fonts.googleapis.com/css2?family=Sarabun&display=swap"
         rel="stylesheet"
       />
+      {/* add favicon - is favicon.ico */}
+      <link rel="icon" href="/favicon.ico" />
+
+      <title>Mailflame: New Campaign</title>
+
       <Sidebar selected={0} />
 
       <div style={{ marginLeft: "320px" }}>
