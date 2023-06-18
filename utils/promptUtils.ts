@@ -139,6 +139,7 @@ export async function scrape_contents_2(websiteURL: string) {
 };
 
 export async function get_subject_line_prompt(leadCompanyOperatorName, leadCompanyName, sourceProductDescription, leadCompanyInfo, sourceEmailTemplate) {
+    console.log(leadCompanyInfo);
 
     const subjectLinePrompt = `The following list of documents are retrieved from ${leadCompanyName} website:
 ${leadCompanyInfo}
@@ -165,6 +166,7 @@ Email Template:
 ${sourceEmailTemplate}
 
 Write a short, captivating, and convincing email to send to ${leadCompanyOperatorName} working at ${leadCompanyName} to sell the product described above. You must use the information retrieved from the website to make the the response personalized. You should only rely on the information provided in the website information and the product description. Do not make up new information. Only write the email body text. Do not add a subject line. Do not add quotation marks around the text. Limit the response to 75 words.`;
+  console.log(leadCompanyInfo);
   return emailBodyPrompt;
   };
 
