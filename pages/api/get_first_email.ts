@@ -5,11 +5,7 @@ import { ChatOpenAI } from "langchain/chat_models/openai";
 
 import * as promptUtils from '../../utils/promptUtils';
 
-export const config = {
-    runtime: "edge",
-};
-
-const handler = async (err, res, req, next) => {
+const handler = async (req, res) => {
   const { leadCompanyOperatorName, leadCompanyName, sourceProductDescription, leadCompanyUrl, sourceEmailTemplate } = (await req.json()) as {
     leadCompanyOperatorName?: string;
     leadCompanyName?: string
