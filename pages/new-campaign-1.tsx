@@ -415,7 +415,7 @@ export default function NewCampaign1() {
           <div className="flex flex-row">
             <p className="mr-4 text-xl font-medium text-gray-400">3</p>
             <p className="text-xl font-medium text-gray-400">
-              Email Generation
+              Email Content Generation
             </p>
           </div>
         </div>

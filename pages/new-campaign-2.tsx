@@ -80,10 +80,10 @@ export default function NewCampaign2() {
         </div>
 
         <div
-          className="bg-white  border border-gray-200 bg-opacity-50 flex justify-center items-center shadow-sm mt-5 flex-col"
+          className="bg-white  border border-gray-200 bg-opacity-50 shadow-sm mt-5 pl-8"
           style={{ width: "962.68px" }}
         >
-          <div className="flex flex-row p-4">
+          <div className="flex flex-row pt-8">
             <p className="mr-4 text-xl font-medium text-black">2</p>
             <p className="text-xl font-medium text-black">Sales Information</p>
           </div>
@@ -127,6 +127,15 @@ export default function NewCampaign2() {
               className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
           </div>
+
+          <button
+            className="bg-blue-500 mt-10 mb-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onClick={() => {
+              window.location.href = "/new-campaign-3";
+            }}
+          >
+            Confirm
+          </button>
         </div>
 
         <div
@@ -136,7 +145,7 @@ export default function NewCampaign2() {
           <div className="flex flex-row">
             <p className="mr-4 text-xl font-medium text-gray-400">3</p>
             <p className="text-xl font-medium text-gray-400">
-              Email Generation
+              Email Content Generation
             </p>
           </div>
         </div>
