@@ -62,7 +62,7 @@ export async function get_contents(websiteURL: string, keywords: string) {
   let pageContents = await vectorStore.similaritySearch(keywords, 2);
   console.log('after');
 
-  await delay(10000);
+  await delay(5000);
   console.log(pageContents);
   // pageContents = pageContents.map((doc) => {doc.pageContent});
   // console.log(pageContents);
