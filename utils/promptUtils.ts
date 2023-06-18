@@ -41,8 +41,6 @@ async function processHTML(url: string) {
 export async function get_contents(websiteURL: string, keywords: string) {
 
   const namespace = new URL(websiteURL).hostname || '';
-  console.log(namespace);
-  console.log(keywords);
 
   const client = new PineconeClient();
   await client.init({
@@ -56,17 +54,13 @@ export async function get_contents(websiteURL: string, keywords: string) {
     { namespace, pineconeIndex },
   );
 
-  console.log(pineconeIndex);
 
-  console.log('before');
   let pageContents = await vectorStore.similaritySearch(keywords, 2);
-  console.log('after');
 
   await delay(5000);
-  console.log(pageContents);
   // @ts-ignore
   pageContents = pageContents.map((doc) => {doc.pageContent});
-  console.log(pageContents);
+
   return pageContents;
 };
 
