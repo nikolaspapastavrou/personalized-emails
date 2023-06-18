@@ -44,7 +44,7 @@ export default function NewCampaign2() {
           <div className="border-b-2 border-gray-200 mt-4" />
         </div>
         <h1 className="text-xl font-semibold  text-slate-800 mt-10">
-          Campaign Name
+          New Campaign
         </h1>
         <div
           className="bg-white border border-gray-200 p-8 mt-4"

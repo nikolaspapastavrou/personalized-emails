@@ -1,7 +1,7 @@
 // models/Lead.ts
 import mongoose, { Document, Schema } from 'mongoose';
 
-export type Status = "Sent" | "Read" | "Replied" | "Bounced" | "Closed" | "No Longer Responding";
+export type Status = "No Contact" | "Sent" | "Read" | "Replied" | "Bounced" | "Closed" | "No Longer Responding";
 
 export interface LeadI extends Document {
   name: string;
@@ -20,7 +20,7 @@ const LeadSchema: Schema<LeadI> = new Schema({
   emailAddress: { type: String, required: true, unique: true },
   tags: { type: [String], required: false },
   website: { type: String, required: false, default: "https://www.example.com" },
-  status: { type: String, required: true, default: "Sent"},
+  status: { type: String, required: true, default: "No Contact"},
 }, {
   toJSON: { virtuals: true },  // Add virtuals to toJSON output
   toObject: { virtuals: true } // Add virtuals to toObject output

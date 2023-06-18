@@ -6,16 +6,40 @@ import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
 import { useState } from "react";
 import uploaded from "../public/uploaded.png";
 import { VercelRequest, VercelResponse } from "@vercel/node";
+import { Status } from "../models/lead";
 
 export default function NewCampaign1() {
-  // Add new type that has email, name, and url
-  type Lead = {
-    email: string;
+  const [uploadedLeads, setUploadedLeads] = useState<SimpleLeadI[]>([]);
+  interface SimpleLeadI {
     name: string;
-    url: string;
-  };
+    companyName: string;
+    emailAddress: string;
+    tags: string[];
+    status: Status;
+    website: string;
+  }
 
-  const [uploadedLeads, setUploadedLeads] = useState<Lead[]>([]);
+  //createInitialCampaign
+  const createInitialCampaign = async () => {
+    const res = await fetch("/api/campaign/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: "Draft Campaign",
+        isActive: false,
+        maxDailyEmailsToSend: 50, // TODO: Hardcoding this for now
+        productDescription: "Draft",
+        emailTemplate: "Draft",
+        serviceURL: "Draft",
+      }),
+    });
+
+    const data = await res.json();
+
+    window.location.href = "/new-campaign-2/" + data._id;
+  };
 
   return (
     <main className=" bg-white">
@@ -91,9 +115,13 @@ export default function NewCampaign1() {
 
                           // convert into a lead object
                           const leads = emails.map((email, i) => ({
-                            email,
+                            emailAddress: email,
                             name: names[i],
-                            url: urls[i],
+                            website: urls[i],
+                            companyName: urls[i], //TODO: differentiate
+                            tags: [""],
+                            status: "No Contact" as Status,
+                            lastContacted: new Date(),
                           }));
 
                           setUploadedLeads(leads);
@@ -191,7 +219,7 @@ export default function NewCampaign1() {
           <div className="border-b-2 border-gray-200 mt-4" />
         </div>
         <h1 className="text-xl font-semibold  text-slate-800 mt-10">
-          Campaign Name
+          New Campaign
         </h1>
         <div
           className="bg-white border border-gray-200 p-8 mt-4"
@@ -269,14 +297,14 @@ export default function NewCampaign1() {
                         scope="row"
                         className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                       >
-                        <div className="flex flex-row">{lead.email}</div>
+                        <div className="flex flex-row">{lead.emailAddress}</div>
                       </th>
 
                       <th
                         scope="row"
                         className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                       >
-                        <div className="flex flex-row">{lead.url}</div>
+                        <div className="flex flex-row">{lead.website}</div>
                       </th>
                     </tr>
                   ))}
@@ -386,9 +414,7 @@ export default function NewCampaign1() {
 
               <button
                 className="bg-blue-500 mt-20 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                onClick={() => {
-                  window.location.href = "/new-campaign-2";
-                }}
+                onClick={createInitialCampaign}
               >
                 Confirm
               </button>
