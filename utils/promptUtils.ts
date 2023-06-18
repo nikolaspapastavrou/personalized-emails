@@ -1,5 +1,10 @@
 import fetch from 'node-fetch';
 import * as cheerio from 'cheerio';
+import { PineconeClient } from "@pinecone-database/pinecone";
+import * as dotenv from "dotenv";
+import { Document } from "langchain/document";
+import { OpenAIEmbeddings } from "langchain/embeddings/openai";
+import { PineconeStore } from "langchain/vectorstores/pinecone";
 
 async function getHTML(url: string) {
   try {
@@ -48,7 +53,7 @@ ${sourceProductDescription}
 Email Template:
 ${sourceEmailTemplate}
 
-Write a short, captivating, and convincing email to send to ${leadCompanyOperatorName} working at ${leadCompanyName} to sell the product described above. Only write the email body text. Do not add a subject line. Do not add quotation marks around the text. Limit the response to 75 words.`;
+Write the subject line for an email that will be sent to send to ${leadCompanyOperatorName} working at ${leadCompanyName} to sell the product described above. Only write the subject line text. Do not add the prefix Subject: at the beggining. Do not add quotation marks around the text.`;
     return subjectLinePrompt
   };
 
