@@ -6,7 +6,7 @@ import "../app/globals.css";
 export default function Home() {
   return (
     <main className=" bg-white">
-      <Sidebar />
+      <Sidebar selected={3} />
 
       <div style={{ marginLeft: "320px" }}>
         <Navbar />
