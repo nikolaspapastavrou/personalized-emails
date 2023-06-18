@@ -49,5 +49,3 @@ export async function getFirstEmail(leadCompanyOperatorName, leadCompanyName, so
   console.log('Returning response');
   return NextResponse.json({ emailSubject: emailSubjectLine, emailBody: emailTextBody});
 };
-  
-  export default handler;
