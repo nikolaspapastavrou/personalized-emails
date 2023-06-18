@@ -6,6 +6,7 @@ import { LeadI, Status } from "../../models/lead"; // assuming this path is corr
 import "../../app/globals.css";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { EmailI } from "../../models/email";
 
 interface CampaignProps {
   campaign: CampaignI;
@@ -91,6 +92,14 @@ export default function Campaign({ campaign }: CampaignProps) {
       unit: "%",
     },
   ];
+
+  function generateGmailLink(email: string): string {
+    const encodedEmail = encodeURIComponent(email);
+    const searchQuery = `${encodedEmail} in:anywhere`;
+    const gmailLink = `https://mail.google.com/mail/u/0/#search/${searchQuery}`;
+
+    return gmailLink;
+  }
 
   return (
     <main className=" bg-white">
@@ -291,48 +300,45 @@ export default function Campaign({ campaign }: CampaignProps) {
                 </tr>
               </thead>
               <tbody>
-                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <th
-                    scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    John Doe
-                  </th>
-                  <td className="px-6 py-4">johndoe@gmail.com</td>
-                  <td className="px-6 py-4">Greetings from...</td>
-                  <td className="px-6 py-4">
-                    According to all known laws of physics...
-                  </td>
-                  <td className="px-6 py-4">06/17/2023</td>
-                </tr>
-                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <th
-                    scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    Jane Doe
-                  </th>
-                  <td className="px-6 py-4">janedoe@gmail.com</td>
-                  <td className="px-6 py-4">Greetings from...</td>
-                  <td className="px-6 py-4">
-                    According to all known laws of physics...
-                  </td>
-                  <td className="px-6 py-4">06/17/2023</td>
-                </tr>
-                <tr className="bg-white dark:bg-gray-800">
-                  <th
-                    scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    Joseph M. Ama
-                  </th>
-                  <td className="px-6 py-4">joemama@gmail.com</td>
-                  <td className="px-6 py-4">Greetings from...</td>
-                  <td className="px-6 py-4">
-                    According to all known laws of physics...
-                  </td>
-                  <td className="px-6 py-4">06/17/2023</td>
-                </tr>
+                {selectedCampaign.leads.map((lead) => {
+                  const lastEmail: EmailI | null = lead.conversation
+                    ? (lead.conversation[
+                        lead.conversation.length - 1
+                      ] as EmailI)
+                    : null;
+
+                  return (
+                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                      <th
+                        scope="row"
+                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        {lead.name}
+                      </th>
+                      <td className="px-6 py-4">{lead.emailAddress}</td>
+                      <td className="px-6 py-4">
+                        {lastEmail ? lastEmail.subject : ""}
+                      </td>
+                      <td className="px-6 py-4">
+                        {lastEmail?.text}
+                        <br></br>
+                        <button
+                          className=" text-blue-600"
+                          onClick={() => {
+                            //open in gmail using gmail function
+                            window.open(
+                              generateGmailLink(lead.emailAddress || ""),
+                              "_blank"
+                            ); //to open new page in new
+                          }}
+                        >
+                          Open in Gmail
+                        </button>
+                      </td>
+                      <td className="px-6 py-4">06/17/2023</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
