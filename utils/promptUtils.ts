@@ -90,7 +90,9 @@ export async function scrape_contents_2(websiteURL: string) {
     const namespace = url.hostname;
 
     try {
-      const response = await fetch(currentPage);
+      const response = await fetch(currentPage, {  headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537'
+      }});
       const body = await response.text();
 
       // Load the HTML into Cheerio
