@@ -38,7 +38,7 @@ async function processHTML(url: string) {
   return pTextsJoined;
 }
 
-export async function get_contents(websiteURL: string, keywords: string): Promise<Array<String>> {
+export async function get_contents(websiteURL: string, keywords: string) {
 
   const namespace = new URL(websiteURL).hostname || '';
 
