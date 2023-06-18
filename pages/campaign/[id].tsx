@@ -117,11 +117,11 @@ export default function Campaign({ campaign }: CampaignProps) {
           {/* Tab bar that toggles the table view below. Emoji's in the tab bar are in a circle with different light pastel color, and the text beside them */}
 
           <div
-            className="inline-flex space-x-10 mt-8 items-center justify-start space-between"
+            className="inline-flex  mt-8 items-center justify-start space-between"
             style={{ height: "32px" }}
           >
             <div
-              className="flex space-x-2 items-center justify-start"
+              className="flex space-x-2 items-center justify-start w-[12rem]"
               onClick={() => setSelectedTab(0)}
             >
               <div className="flex items-center justify-center w-8 h-full px-2 py-1 bg-red-100 rounded-full">
@@ -143,7 +143,7 @@ export default function Campaign({ campaign }: CampaignProps) {
               </p>
             </div>
             <div
-              className="flex space-x-2 items-center justify-start"
+              className="flex space-x-2 items-center justify-start w-[12rem]"
               onClick={() => setSelectedTab(1)}
             >
               <div className="flex items-center justify-center w-8 h-full px-2 py-1 bg-yellow-100 rounded-full">
@@ -165,7 +165,7 @@ export default function Campaign({ campaign }: CampaignProps) {
               </p>
             </div>
             <div
-              className="flex space-x-2 items-center justify-start"
+              className="flex space-x-2 items-center justify-start w-[12rem]"
               onClick={() => setSelectedTab(2)}
             >
               <div className="flex items-center justify-center w-8 h-full px-2 py-1 bg-gray-100 rounded-full">
@@ -187,10 +187,10 @@ export default function Campaign({ campaign }: CampaignProps) {
               </p>
             </div>
             <div
-              className="flex space-x-2 items-center justify-start"
+              className="flex space-x-2 items-center justify-start w-[12rem]"
               onClick={() => setSelectedTab(3)}
             >
-              <div className="flex items-center justify-center w-1/3 h-full px-2 py-1 bg-gray-200 rounded-full">
+              <div className="flex items-center justify-center w-8 h-full px-2 py-1 bg-gray-200 rounded-full">
                 <p className="text-base leading-normal text-gray-900">🧊 </p>
               </div>
               <p
@@ -209,7 +209,7 @@ export default function Campaign({ campaign }: CampaignProps) {
               </p>
             </div>
             <div
-              className="flex space-x-2 items-center justify-start"
+              className="flex space-x-2 items-center justify-start "
               onClick={() => setSelectedTab(4)}
             >
               <div className="flex items-center justify-center w-8 h-full px-2 py-1 bg-gray-200 rounded-full">
@@ -233,7 +233,7 @@ export default function Campaign({ campaign }: CampaignProps) {
           </div>
           <div
             style={{
-              marginLeft: (selectedTab * 10).toString() + "rem",
+              marginLeft: (selectedTab * 12).toString() + "rem",
             }}
             className="w-28 h-0.5 mt-2 bg-gray-300 rounded-full mb-4"
           />
