@@ -38,7 +38,7 @@ export async function SendEmail(to: string, subject: string, message: string): P
 
 export async function SendFirstEmail(to: string, firstName: string): Promise<string | null> {
   // Input validation
-  if (!validateEmail(to)) throw new Error('Invalid email address');
+  // if (!validateEmail(to)) throw new Error('Invalid email address');
   if (!firstName) throw new Error('Invalid first name');
 
   try {
