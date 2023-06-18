@@ -10,6 +10,10 @@ export interface CampaignI extends Document {
   productDescription: string;
   emailTemplate: string;
   serviceURL: string;
+
+  // Timestamps
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 const CampaignSchema: Schema = new Schema({
@@ -20,6 +24,18 @@ const CampaignSchema: Schema = new Schema({
   productDescription: { type: String, required: true },
   emailTemplate: { type: String, required: true },
   serviceURL: { type: String, required: true },
+},
+  {
+    timestamps: true,
+  });
+
+
+  // Populate 'conversation' field every time a Lead is queried
+  CampaignSchema.pre<LeadI>('find', function() {
+  this.populate('leads');
+});
+CampaignSchema.pre<LeadI>('findOne', function() {
+  this.populate('leads');
 });
 
 export default mongoose.models.Campaign || mongoose.model<CampaignI>('Campaign', CampaignSchema);

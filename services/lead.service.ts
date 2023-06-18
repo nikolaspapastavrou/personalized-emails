@@ -1,5 +1,6 @@
 // services/lead.service.ts
 import Campaign, { CampaignI } from "../models/campaign";
+import Email, { EmailI } from "../models/email";
 import Lead, { LeadI } from "../models/lead";
 import { getFirstEmail } from "../pages/api/get_first_email";
 import * as EmailService from "./email.service";
@@ -94,45 +95,50 @@ export async function getLeadByEmail(email: string): Promise<LeadI | null> {
 // Start Campaign, send first email.
 export async function startCampaign(campaignId: string): Promise<CampaignI | null> {
   // Get all leads for this campaign.
-  const campaign = await Campaign.findById(campaignId).populate('leads');
+  const campaign = await Campaign.findById(campaignId);
   if (!campaign) throw new Error(`Campaign ${campaignId} not found`);
 
-  // Send first email to each lead. and update the lead's conversation. and state.
-  const leads = campaign.leads;
-  
+  // Send first email to each lead and update the lead's conversation and state.
+  const leads = await Lead.find({ _id: { $in: campaign.leads } });
+
   const PromiseArray = leads.map(async (lead: LeadI) => {
     const template = await getFirstEmail(lead.name, lead.companyName, campaign.productDescription, campaign.serviceURL, campaign.emailTemplate);
-    // const template = {
-    //   emailSubject: "Warm Email Leads - Personalized Email Outreach",
-    //   emailBody: "test"
-    // }
-    console.log("\n\n\n");
-    console.log("🔥 TEMPLATE 🔥");
-    console.log(template);
-    console.log("\n\n\n");
-    console.log(`EmailService.SendEmail(${lead.emailAddress}, ${template.emailSubject}, ${template.emailBody}) |`, lead.emailAddress, template.emailSubject.trim(), template.emailBody.trim())
-    console.log("\n\n\n");
-    
     await EmailService.SendEmail(lead.emailAddress, template.emailSubject, template.emailBody);
+    
+    const email: EmailI = {
+      lead: lead._id,
+      senderName: "Isaiah",
+      senderEmail: "isaiah@warmemailleads.com",
+      recipientName: lead.name,
+      recipientEmail: lead.emailAddress,
+      subject: template.emailSubject,
+      text: template.emailBody,
+    };
 
-    // lead.conversation.push({
-    //   senderName: "Isaiah",
-    //   senderEmail: "isaiah@warmemailleads.com",
-    //   recipientName: lead.name,
-    //   recipientEmail: lead.emailAddress,
-    //   subject: template.emailSubject,
-    //   text: template.emailBody,
-    //   date: new Date(),
-    // });
+    await createEmail(email);
 
-    // lead.status = "Sent";
-    // await lead.save();
+    await Lead.findByIdAndUpdate(lead._id, {
+      status: "Sent",
+      companyName: "Test Company Name"
+    }, { new: true });
   });
 
   await Promise.all(PromiseArray);
 
-  // campaign.isActive = true;
-  // await campaign.save();
+  campaign.isActive = true;
+  await campaign.save();
 
   return campaign;
+}
+
+export async function createEmail(email: EmailI): Promise<EmailI> {
+  return await Email.create(email); 
+}
+
+export async function getEmails(): Promise<EmailI[]> {
+  return Email.find();
+}
+
+export async function getEmailsForLead(leadId: string): Promise<EmailI[]> {
+  return Email.find({ lead: leadId });
 }
