@@ -54,7 +54,7 @@ export async function get_contents(websiteURL: string, keywords: string) {
   console.log(pineconeIndex);
 
   try {
-    let pageContents = vectorStore.similaritySearch(keywords, 2);
+    let pageContents = await vectorStore.similaritySearch(keywords, 2);
     console.log(pageContents);
   } catch(error) {
     console.error('An error occurred:', error);
