@@ -29,11 +29,25 @@ async function processHTML(url: string) {
   const pTexts = $('p, h1, h2, h3, h4, h5, h6').map((_, elem) => $(elem).text()).get();
 
   console.log(pTexts);
+  const pTextsJoined = pTexts.join(" ");
 
-  return pTexts;
+  return pTextsJoined;
 }
 
 export async function get_contents(websiteURL: string) {
+
+  
+  const client = new PineconeClient();
+  await client.init({
+    apiKey: process.env.PINECONE_API_KEY,
+    environment: process.env.PINECONE_ENVIRONMENT,
+  });
+  const pineconeIndex = client.Index(process.env.PINECONE_INDEX);
+
+  const vectorStore = await PineconeStore.fromExistingIndex(
+    new OpenAIEmbeddings(),
+    { pineconeIndex }
+  );
 
   console.info(websiteURL);
 
@@ -42,9 +56,82 @@ export async function get_contents(websiteURL: string) {
   return pageContents;
 };
 
+export async function scrape_contents_2(websiteURL: string) {
+  console.log('Initializing client!');
+
+  const client = new PineconeClient();
+  await client.init({
+    apiKey: process.env.PINECONE_API_KEY,
+    environment: process.env.PINECONE_ENVIRONMENT,
+  });
+
+  console.log('Retrieving index!');
+  const pineconeIndex = client.Index(process.env.PINECONE_INDEX);
+
+  const vectorStore = await PineconeStore.fromExistingIndex(
+    new OpenAIEmbeddings(),
+    { pineconeIndex }
+  );
+
+  console.log('Connected with vectorstore!');
+
+  const relevantKeywords = ['about', 'information', 'mission', 'details', 'values', 'products', 'strategy'];
+  let pagesToVisit = [websiteURL];
+  let pagesVisited = 0;
+  let pageContents = "";
+
+  console.log('Starting loop!');
+
+
+  while (pagesVisited < 3 && pagesToVisit.length > 0) {
+    let currentPage = pagesToVisit.shift();
+    if (!currentPage) {
+      continue;
+    }
+
+    console.info(currentPage);
+
+    const url = new URL(currentPage);
+    const namespace = url.hostname;
+
+    try {
+      const response = await fetch(currentPage);
+      const body = await response.text();
+
+      // Load the HTML into Cheerio
+      const $ = cheerio.load(body);
+
+      // Get the text of all relevant elements:
+      const pTexts = $('p, h1, h2, h3, h4, h5, h6').map((_, elem) => $(elem).text()).get();
+      pageContents += " " + pTexts.join(" ");
+      console.info(pageContents);
+      await vectorStore.addDocuments([new Document({
+        namespace: namespace,  // Updated to use domain name of the URL as namespace
+        pageContent: pageContents,
+      })]);
+
+      // Find new pages to visit:
+      $("a[href]").each(function() {
+        let href = $(this).attr('href');
+        // Handling relative URLs:
+        href = new URL(href, currentPage).href;
+        const isRelevant = relevantKeywords.some(keyword => href.endsWith(keyword));
+
+        if (isRelevant && !pagesToVisit.includes(href)) {
+          pagesToVisit.push(href);
+        }
+      });
+
+      pagesVisited++;
+    } catch (error) {
+      console.error(`Failed to fetch ${currentPage}`);
+    }
+  }
+};
+
 export async function get_subject_line_prompt(leadCompanyOperatorName, leadCompanyName, sourceProductDescription, leadCompanyInfo, sourceEmailTemplate) {
 
-    const subjectLinePrompt = `Information scraped from ${leadCompanyName} website:
+    const subjectLinePrompt = `Information scraped from ${leadCompanyName} retrieved:
 ${leadCompanyInfo}
 
 Product to sell:
@@ -59,7 +146,7 @@ Write the subject line for an email that will be sent to send to ${leadCompanyOp
 
 export async function get_email_body_prompt(leadCompanyOperatorName, leadCompanyName, sourceProductDescription, leadCompanyInfo, sourceEmailTemplate) {
 
-  const emailBodyPrompt = `Information scraped from ${leadCompanyName} website:
+  const emailBodyPrompt = `Information retrieved from ${leadCompanyName} website:
 ${leadCompanyInfo}
 
 Product to sell:
